@@ -40,7 +40,7 @@ public class ExchangeDAO {
         		exchange = new Exchange();
         		exchange.setId(rs.getInt("ID"));
         		exchange.setName(rs.getString("NAME"));
-        		exchange.setShortName(rs.getString("SHORT_NAME"));        }
+        		exchange.setShortName(rs.getString("SHORTNAME"));        }
         return exchange;
     }
 
@@ -77,7 +77,7 @@ public class ExchangeDAO {
             Exchange exchange = new Exchange();
             exchange.setId(rs.getInt("ID"));
             exchange.setName(rs.getString("NAME"));
-            exchange.setShortName(rs.getString("SHORT_NAME"));
+            exchange.setShortName(rs.getString("SHORTNAME"));
 
             //Add Exchange to the ObservableList
             exchangeList.add(exchange);
@@ -92,7 +92,7 @@ public class ExchangeDAO {
     public static void updateExchangeName (String Id, String Name) throws SQLException, ClassNotFoundException {
         //Declare a UPDATE statement
         String updateStmt =
-        		"   UPDATE Exchanges\n" +
+        		"   UPDATE Exchange\n" +
         				"      SET NAME = '" + Name + "'\n" +
         				"    WHERE Exchange_ID = " + Id + ";";
 
@@ -111,7 +111,7 @@ public class ExchangeDAO {
     public static void updateExchangeShortName (String Id, String ShortName) throws SQLException, ClassNotFoundException {
         //Declare a UPDATE statement
         String updateStmt =
-        		"   UPDATE Exchanges\n" +
+        		"   UPDATE Exchange\n" +
         				"      SET SHORTNAME = '" + ShortName + "'\n" +
         				"    WHERE Exchange_ID = " + Id + ";";
 
@@ -130,7 +130,7 @@ public class ExchangeDAO {
     public static void deleteExchangeWithId (String Id) throws SQLException, ClassNotFoundException {
         //Declare a DELETE statement
         String updateStmt =
-                        "   DELETE FROM Exchanges\n" +
+                        "   DELETE FROM Exchange\n" +
                         "         WHERE id ="+ Id +";";
 
         //Execute UPDATE operation
@@ -148,10 +148,10 @@ public class ExchangeDAO {
     public static void insertExchange (String name, String shortName) throws SQLException, ClassNotFoundException {
         //Declare a DELETE statement
         String updateStmt =
-        		"INSERT INTO Exchanges\n" +
-        				"(NAME, SHORT_NAME)\n" +
+        		"INSERT INTO Exchange\n" +
+        				"(NAME, SHORTNAME)\n" +
         				"VALUES\n" +
-        				"('"+name+"', '"+shortName+");";
+        				"('"+name+"', '"+shortName+"');";
 
         //Execute DELETE operation
         try {

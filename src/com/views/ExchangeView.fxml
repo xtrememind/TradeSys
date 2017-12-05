@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="344.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controllers.ExchangeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="344.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controllers.ExchangeController">
    <children>
       <TextField fx:id="empIdText" layoutX="193.0" layoutY="133.0" prefHeight="25.0" prefWidth="67.0" promptText="Emp ID" />
       <Label layoutX="194.0" layoutY="113.0" text="Exchange ID" />
@@ -37,9 +37,9 @@
       <Button fx:id="searchExchangeBtn" layoutX="450.0" layoutY="162.0" mnemonicParsing="false" onAction="#searchExchanges" prefHeight="27.0" prefWidth="85.0" text="Search All" />
       <TextField fx:id="nameText" layoutX="174.0" layoutY="24.0" prefHeight="27.0" prefWidth="311.0" promptText="Name" />
       <Label layoutX="55.0" layoutY="30.0" prefHeight="17.0" prefWidth="105.0" text="Exchange Name" />
-      <TextField fx:id="nameText" layoutX="174.0" layoutY="61.0" prefHeight="27.0" prefWidth="180.0" promptText="Short Name" />
+      <TextField fx:id="shortNameText" layoutX="174.0" layoutY="61.0" prefHeight="27.0" prefWidth="180.0" promptText="Short Name" />
       <Label layoutX="55.0" layoutY="67.0" prefHeight="17.0" prefWidth="105.0" text="Short Name" />
-      <TextField fx:id="shortNameText" layoutX="409.0" layoutY="131.0" prefHeight="25.0" prefWidth="120.0" promptText="new shot name" />
+      <TextField fx:id="newShortNameText" layoutX="409.0" layoutY="131.0" prefHeight="25.0" prefWidth="120.0" promptText="new short name" />
       <Label layoutX="412.0" layoutY="111.0" text="New Short Name" />
    </children>
 </AnchorPane>

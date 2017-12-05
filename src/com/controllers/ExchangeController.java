@@ -30,6 +30,11 @@ public class ExchangeController {
     @FXML
     private TextField nameText;
     @FXML
+    private TextField newNameText;
+    @FXML
+    private TextField newShortNameText;
+
+    @FXML
     private TableView exchangeTable;
     @FXML
     private TableColumn<Exchange, Integer>  IdColumn;
@@ -153,8 +158,8 @@ public class ExchangeController {
     @FXML
     private void updateExchangeNames (ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         try {
-            ExchangeDAO.updateExchangeName(IdText.getText(),nameText.getText());
-            ExchangeDAO.updateExchangeShortName(IdText.getText(),shortNameText.getText());
+            ExchangeDAO.updateExchangeName(IdText.getText(),newNameText.getText());
+            ExchangeDAO.updateExchangeShortName(IdText.getText(),newShortNameText.getText());
             resultArea.setText("Email has been updated for, Exchange id: " + IdText.getText() + "\n");
         } catch (SQLException e) {
             resultArea.setText("Problem occurred while updating email: " + e);
