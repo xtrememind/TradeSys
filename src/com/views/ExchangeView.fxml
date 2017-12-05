@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="344.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controllers.ExchangeController">
+   <children>
+      <TextField fx:id="empIdText" layoutX="193.0" layoutY="133.0" prefHeight="25.0" prefWidth="67.0" promptText="Emp ID" />
+      <Label layoutX="194.0" layoutY="113.0" text="Exchange ID" />
+      <Button fx:id="searchExchangeBtn" layoutX="193.0" layoutY="162.0" mnemonicParsing="false" onAction="#searchExchange" prefHeight="27.0" prefWidth="67.0" text="Search" />
+      <Button fx:id="deleteExchangeBtn" layoutX="365.0" layoutY="162.0" mnemonicParsing="false" onAction="#deleteExchange" prefHeight="27.0" prefWidth="76.0" text="Delete" />
+      <Button fx:id="updateExchangeBtn" layoutX="273.0" layoutY="162.0" mnemonicParsing="false" onAction="#updateExchangeNames" prefHeight="27.0" prefWidth="85.0" text="Update" />
+      <Button fx:id="addExchangeBtn" layoutX="366.0" layoutY="60.0" mnemonicParsing="false" onAction="#insertExchange" text="Create Exchange" />
+      <TextArea fx:id="resultArea" layoutX="19.0" layoutY="195.0" prefHeight="134.0" prefWidth="167.0" wrapText="true" />
+      <Label layoutX="21.0" layoutY="175.0" text="Result Console">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <TextField fx:id="newNameText" layoutX="275.0" layoutY="133.0" prefHeight="25.0" prefWidth="120.0" promptText="new name" />
+      <Label layoutX="278.0" layoutY="113.0" text="New Name" />
+      <VBox layoutX="97.0" layoutY="24.0" spacing="4.0" />
+      <VBox layoutX="9.0" layoutY="28.0" prefWidth="67.0" spacing="12.0" />
+      <TableView fx:id="exchangeTable" editable="true" layoutX="193.0" layoutY="194.0" prefHeight="136.0" prefWidth="374.0" tableMenuButtonVisible="true">
+        <columns>
+            <TableColumn fx:id="IdColumn" prefWidth="57.0" text="Id" />
+          <TableColumn fx:id="nameColumn" prefWidth="204.71043395996094" text="Name" />
+            <TableColumn fx:id="shortNameColumn" minWidth="8.8585205078125" prefWidth="95.78955078125" text="Short Name" />
+        </columns>
+      </TableView>
+      <Button fx:id="searchExchangeBtn" layoutX="450.0" layoutY="162.0" mnemonicParsing="false" onAction="#searchExchanges" prefHeight="27.0" prefWidth="85.0" text="Search All" />
+      <TextField fx:id="nameText" layoutX="174.0" layoutY="24.0" prefHeight="27.0" prefWidth="311.0" promptText="Name" />
+      <Label layoutX="55.0" layoutY="30.0" prefHeight="17.0" prefWidth="105.0" text="Exchange Name" />
+      <TextField fx:id="nameText" layoutX="174.0" layoutY="61.0" prefHeight="27.0" prefWidth="180.0" promptText="Short Name" />
+      <Label layoutX="55.0" layoutY="67.0" prefHeight="17.0" prefWidth="105.0" text="Short Name" />
+      <TextField fx:id="shortNameText" layoutX="409.0" layoutY="131.0" prefHeight="25.0" prefWidth="120.0" promptText="new shot name" />
+      <Label layoutX="412.0" layoutY="111.0" text="New Short Name" />
+   </children>
+</AnchorPane>
