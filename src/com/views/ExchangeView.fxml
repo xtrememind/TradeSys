@@ -12,7 +12,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="344.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controllers.ExchangeController">
    <children>
-      <TextField fx:id="empIdText" layoutX="193.0" layoutY="133.0" prefHeight="25.0" prefWidth="67.0" promptText="Emp ID" />
+      <TextField fx:id="IdText" layoutX="193.0" layoutY="133.0" prefHeight="25.0" prefWidth="67.0" promptText="Emp ID" />
       <Label layoutX="194.0" layoutY="113.0" text="Exchange ID" />
       <Button fx:id="searchExchangeBtn" layoutX="193.0" layoutY="162.0" mnemonicParsing="false" onAction="#searchExchange" prefHeight="27.0" prefWidth="67.0" text="Search" />
       <Button fx:id="deleteExchangeBtn" layoutX="365.0" layoutY="162.0" mnemonicParsing="false" onAction="#deleteExchange" prefHeight="27.0" prefWidth="76.0" text="Delete" />

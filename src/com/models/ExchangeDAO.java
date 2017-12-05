@@ -94,7 +94,7 @@ public class ExchangeDAO {
         String updateStmt =
         		"   UPDATE Exchange\n" +
         				"      SET NAME = '" + Name + "'\n" +
-        				"    WHERE Exchange_ID = " + Id + ";";
+        				"    WHERE ID = " + Id + ";";
 
         //Execute UPDATE operation
         try {
@@ -113,7 +113,7 @@ public class ExchangeDAO {
         String updateStmt =
         		"   UPDATE Exchange\n" +
         				"      SET SHORTNAME = '" + ShortName + "'\n" +
-        				"    WHERE Exchange_ID = " + Id + ";";
+        				"    WHERE ID = " + Id + ";";
 
         //Execute UPDATE operation
         try {
