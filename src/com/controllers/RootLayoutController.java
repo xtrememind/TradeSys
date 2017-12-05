@@ -1,8 +1,9 @@
-package sample.controller;
+package com.controllers;
+
+import com.Main;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
-import sample.Main;
 
 public class RootLayoutController {
 

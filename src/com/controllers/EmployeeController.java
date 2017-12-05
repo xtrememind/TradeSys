@@ -1,4 +1,4 @@
-package sample.controller;
+package com.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,14 +9,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import sample.model.Employee;
-import sample.model.EmployeeDAO;
 
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
+import com.models.Employee;
+import com.models.EmployeeDAO;
 
 /**
  * Created by ONUR BASKIRT on 23.02.2016.

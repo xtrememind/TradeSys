@@ -1,10 +1,11 @@
-package sample.model;
+package com.models;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import util.DBUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.util.DBUtil;
 
 public class EmployeeDAO {
 
