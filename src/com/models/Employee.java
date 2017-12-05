@@ -3,9 +3,6 @@ package com.models;
 import javafx.beans.property.*;
 import java.sql.Date;
 
-/**
- * Created by ONUR BASKIRT on 27.02.2016.
- */
 public class Employee {
     //Declare Employees Table Columns
     private IntegerProperty employee_id;

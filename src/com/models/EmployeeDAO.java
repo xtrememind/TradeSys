@@ -1,11 +1,11 @@
 package com.models;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import com.util.DBUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import com.util.DBUtil;
+import java.util.Date;
 
 public class EmployeeDAO {
 
@@ -14,7 +14,7 @@ public class EmployeeDAO {
     //*******************************
     public static Employee searchEmployee (String empId) throws SQLException, ClassNotFoundException {
         //Declare a SELECT statement
-        String selectStmt = "SELECT * FROM employees WHERE employee_id="+empId;
+		String selectStmt = "SELECT * FROM Employees WHERE EMPLOYEE_ID="+empId;
 
         //Execute SELECT statement
         try {
@@ -43,13 +43,13 @@ public class EmployeeDAO {
             emp.setFirstName(rs.getString("FIRST_NAME"));
             emp.setLastName(rs.getString("LAST_NAME"));
             emp.setEmail(rs.getString("EMAIL"));
-            emp.setPhoneNumber(rs.getString("PHONE_NUMBER"));
-            emp.setHireDate(rs.getDate("HIRE_DATE"));
+            //emp.setPhoneNumber(rs.getString("PHONE_NUMBER"));
+            //emp.setHireDate(rs.getDate("HIRE_DATE"));
             emp.setJobId(rs.getString("JOB_ID"));
-            emp.setSalary(rs.getInt("SALARY"));
-            emp.setCommissionPct(rs.getDouble("COMMISSION_PCT"));
-            emp.setManagerId(rs.getInt("MANAGER_ID"));
-            emp.setDepartmantId(rs.getInt("DEPARTMENT_ID"));
+            //emp.setSalary(rs.getInt("SALARY"));
+            //emp.setCommissionPct(rs.getDouble("COMMISSION_PCT"));
+            //emp.setManagerId(rs.getInt("MANAGER_ID"));
+            //emp.setDepartmantId(rs.getInt("DEPARTMENT_ID"));
         }
         return emp;
     }
@@ -59,7 +59,7 @@ public class EmployeeDAO {
     //*******************************
     public static ObservableList<Employee> searchEmployees () throws SQLException, ClassNotFoundException {
         //Declare a SELECT statement
-        String selectStmt = "SELECT * FROM employees";
+        String selectStmt = "SELECT * FROM Employees";
 
         //Execute SELECT statement
         try {
@@ -109,12 +109,9 @@ public class EmployeeDAO {
     public static void updateEmpEmail (String empId, String empEmail) throws SQLException, ClassNotFoundException {
         //Declare a UPDATE statement
         String updateStmt =
-                "BEGIN\n" +
-                        "   UPDATE employees\n" +
-                        "      SET EMAIL = '" + empEmail + "'\n" +
-                        "    WHERE EMPLOYEE_ID = " + empId + ";\n" +
-                        "   COMMIT;\n" +
-                        "END;";
+        		"   UPDATE Employees\n" +
+        				"      SET EMAIL = '" + empEmail + "'\n" +
+        				"    WHERE EMPLOYEE_ID = " + empId + ";";
 
         //Execute UPDATE operation
         try {
@@ -131,11 +128,8 @@ public class EmployeeDAO {
     public static void deleteEmpWithId (String empId) throws SQLException, ClassNotFoundException {
         //Declare a DELETE statement
         String updateStmt =
-                "BEGIN\n" +
-                        "   DELETE FROM employees\n" +
-                        "         WHERE employee_id ="+ empId +";\n" +
-                        "   COMMIT;\n" +
-                        "END;";
+                        "   DELETE FROM Employees\n" +
+                        "         WHERE employee_id ="+ empId +";";
 
         //Execute UPDATE operation
         try {
@@ -152,12 +146,10 @@ public class EmployeeDAO {
     public static void insertEmp (String name, String lastname, String email) throws SQLException, ClassNotFoundException {
         //Declare a DELETE statement
         String updateStmt =
-                "BEGIN\n" +
-                        "INSERT INTO employees\n" +
-                        "(EMPLOYEE_ID, FIRST_NAME, LAST_NAME, EMAIL, HIRE_DATE, JOB_ID)\n" +
-                        "VALUES\n" +
-                        "(sequence_employee.nextval, '"+name+"', '"+lastname+"','"+email+"', SYSDATE, 'IT_PROG');\n" +
-                        "END;";
+        		"INSERT INTO Employees\n" +
+        				"(FIRST_NAME, LAST_NAME, EMAIL, HIRE_DATE, JOB_ID)\n" +
+        				"VALUES\n" +
+        				"('"+name+"', '"+lastname+"','"+email+"', CURDATE(), 'IT_PROG');";
 
         //Execute DELETE operation
         try {

@@ -19,9 +19,6 @@ import java.util.concurrent.Executors;
 import com.models.Employee;
 import com.models.EmployeeDAO;
 
-/**
- * Created by ONUR BASKIRT on 23.02.2016.
- */
 public class EmployeeController {
 
     @FXML

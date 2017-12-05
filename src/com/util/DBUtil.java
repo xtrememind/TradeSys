@@ -3,39 +3,41 @@ package com.util;
 import com.sun.rowset.CachedRowSetImpl;
 
 import java.sql.*;
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Created by ONUR BASKIRT on 22.02.2016.
  */
 public class DBUtil {
     //Declare JDBC Driver
-    private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
+	private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";    
+    
 
     //Connection
     private static Connection conn = null;
-
-    //Connection String
-    //String connStr = "jdbc:oracle:thin:Username/Password@IP:Port/SID";
-    //Username=HR, Password=HR, IP=localhost, IP=1521, SID=xe
-    private static final String connStr = "jdbc:oracle:thin:HR/HR@localhost:1521/xe";
+    static String Username="sql9208938";
+    static String Password="9fhdfr5nJm";
+    private static final String connStr = "jdbc:mysql://sql9.freemysqlhosting.net:3306/sql9208938";
 
 
     //Connect to DB
     public static void dbConnect() throws SQLException, ClassNotFoundException {
-        //Setting Oracle JDBC Driver
+        //Setting MySQL JDBC Driver
         try {
             Class.forName(JDBC_DRIVER);
         } catch (ClassNotFoundException e) {
-            System.out.println("Where is your Oracle JDBC Driver?");
+            System.out.println("Where is your MySQL JDBC Driver?");
             e.printStackTrace();
             throw e;
         }
 
-        System.out.println("Oracle JDBC Driver Registered!");
+        System.out.println("MySQL JDBC Driver Registered!");
 
-        //Establish the Oracle Connection using Connection String
+        //Establish the MySQL Connection using Connection String
         try {
-            conn = DriverManager.getConnection(connStr);
+            conn = DriverManager.getConnection(connStr, Username, Password);
         } catch (SQLException e) {
             System.out.println("Connection Failed! Check output console" + e);
             e.printStackTrace();
@@ -61,7 +63,7 @@ public class DBUtil {
         ResultSet resultSet = null;
         CachedRowSetImpl crs = null;
         try {
-            //Connect to DB (Establish Oracle Connection)
+            //Connect to DB (Establish MySQL Connection)
             dbConnect();
             System.out.println("Select statement: " + queryStmt + "\n");
 
@@ -100,7 +102,7 @@ public class DBUtil {
         //Declare statement as null
         Statement stmt = null;
         try {
-            //Connect to DB (Establish Oracle Connection)
+            //Connect to DB (Establish MySQL Connection)
             dbConnect();
             //Create Statement
             stmt = conn.createStatement();
