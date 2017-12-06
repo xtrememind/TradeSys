@@ -52,4 +52,9 @@ public class Exchange {
     public StringProperty ShortNameProperty() {
         return short_name;
     }
+
+	@Override
+	public String toString() {
+		return short_name.get();
+	}
 }
