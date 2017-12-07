@@ -12,8 +12,8 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="344.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controllers.InvestorController">
    <children>
-      <TextField fx:id="IdText" layoutX="193.0" layoutY="133.0" prefHeight="25.0" prefWidth="67.0" promptText="Emp ID" />
-      <Label layoutX="194.0" layoutY="113.0" text="Investor ID" />
+      <TextField fx:id="IdText" layoutX="67.0" layoutY="133.0" prefHeight="25.0" prefWidth="67.0" promptText="Emp ID" />
+      <Label layoutX="68.0" layoutY="113.0" text="Investor ID" />
       <Button fx:id="searchInvestorBtn" layoutX="193.0" layoutY="162.0" mnemonicParsing="false" onAction="#searchInvestor" prefHeight="27.0" prefWidth="67.0" text="Search" />
       <Button fx:id="deleteInvestorBtn" layoutX="365.0" layoutY="162.0" mnemonicParsing="false" onAction="#deleteInvestor" prefHeight="27.0" prefWidth="76.0" text="Delete" />
       <Button fx:id="updateInvestorBtn" layoutX="273.0" layoutY="162.0" mnemonicParsing="false" onAction="#updateInvestorNames" prefHeight="27.0" prefWidth="85.0" text="Update" />
@@ -23,8 +23,8 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>
-      <TextField fx:id="newNameText" layoutX="275.0" layoutY="133.0" prefHeight="27.0" prefWidth="259.0" promptText="new name" />
-      <Label layoutX="278.0" layoutY="113.0" text="New Name" />
+      <TextField fx:id="newBrokerFeesText" layoutX="323.0" layoutY="133.0" prefHeight="27.0" prefWidth="123.0" promptText="new Broker fees" />
+      <Label layoutX="326.0" layoutY="113.0" text="New Broker Fees" />
       <VBox layoutX="97.0" layoutY="24.0" spacing="4.0" />
       <VBox layoutX="9.0" layoutY="28.0" prefWidth="67.0" spacing="12.0" />
       <TableView fx:id="investorTable" editable="true" layoutX="193.0" layoutY="194.0" prefHeight="136.0" prefWidth="374.0" tableMenuButtonVisible="true">
@@ -42,5 +42,9 @@
       <Label layoutX="15.0" layoutY="44.0" prefHeight="17.0" prefWidth="105.0" text="Broker Fees" />
       <TextField fx:id="MarketFeesText" layoutX="134.0" layoutY="68.0" prefHeight="27.0" prefWidth="311.0" promptText="Name" />
       <Label layoutX="15.0" layoutY="74.0" prefHeight="17.0" prefWidth="105.0" text="Market Fees" />
+      <TextField fx:id="newMarketFeesText" layoutX="462.0" layoutY="133.0" prefHeight="27.0" prefWidth="123.0" promptText="new market fees" />
+      <Label layoutX="465.0" layoutY="113.0" text="New Market Fees" />
+      <TextField fx:id="newNameText" layoutX="148.0" layoutY="133.0" prefHeight="27.0" prefWidth="167.0" promptText="new Name" />
+      <Label layoutX="151.0" layoutY="113.0" text="New Broker Fees" />
    </children>
 </AnchorPane>
