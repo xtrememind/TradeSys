@@ -10,6 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -17,10 +18,16 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
 import com.models.*;
 
 public class SecurityController {
-
+    private static SessionFactory factory;
     @FXML
     private TextField IdText;
     @FXML
@@ -69,18 +76,36 @@ public class SecurityController {
         */
 
         //For multithreading: Create executor that uses daemon threads:
+        try{
+            factory = new Configuration().configure().buildSessionFactory();
+         }catch (Throwable ex) { 
+          System.err.println("Failed to create sessionFactory object." + ex);
+          throw new ExceptionInInitializerError(ex); 
+       }
+        //For multithreading: Create executor that uses daemon threads:
         exec = Executors.newCachedThreadPool((runnable) -> {
             Thread t = new Thread (runnable);
             t.setDaemon(true);
             return t;
         });
 
-        IdColumn.setCellValueFactory(cellData -> cellData.getValue().IdProperty().asObject());
+        IdColumn.setCellValueFactory(new PropertyValueFactory("id"));
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().NameProperty());
-        exchangeColumn.setCellValueFactory(cellData -> cellData.getValue().getExchangeName());
         codeColumn.setCellValueFactory(cellData -> cellData.getValue().CodeProperty());
-        
-        try {
+//        exchangeColumn.setCellValueFactory(cellData -> cellData.getValue().ExchangeProperty());
+
+     	Session session = factory.openSession();
+        try{
+         		ObservableList<Exchange> exchangeData = FXCollections.observableList(session.createQuery("FROM Exchange").list());
+         		ExchangeCombo.setItems(exchangeData);
+         		newExchangeCombo.setItems(exchangeData);
+         }catch (HibernateException e) {
+            e.printStackTrace(); 
+         }finally {
+            session.close(); 
+         }
+
+/*        try {
         	ObservableList<Exchange> exchangeData = ExchangeDAO.searchExchanges();
         	ExchangeCombo.setItems(exchangeData);
         	newExchangeCombo.setItems(exchangeData);
@@ -88,7 +113,7 @@ public class SecurityController {
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
         	
     }
 
@@ -96,34 +121,37 @@ public class SecurityController {
     //Search an Security
     @FXML
     private void searchSecurity (ActionEvent actionEvent) throws ClassNotFoundException, SQLException {
-        try {
-            //Get Security information
-            Security Security = SecurityDAO.searchSecurity(IdText.getText());
-            //Populate Security on TableView and Display on TextArea
-            populateAndShowSecurity(Security);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            resultArea.setText("Error occurred while getting Security information from DB.\n" + e);
-            throw e;
+    	Session session = factory.openSession();
+        try{
+        		Security security = 
+                        (Security)session.get(Security.class, Integer.parseInt(IdText.getText()));
+           populateAndShowSecurity(security);
+        }catch (HibernateException e) {
+           e.printStackTrace();
+           resultArea.setText("Error occurred while getting Security information from DB.\n" + e);
+        }finally {
+           session.close(); 
         }
+
     }
 
     //Search all Securitys
     @FXML
     private void searchSecuritys(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        try {
-            //Get all Securitys information
-            ObservableList<Security> SecurityData = SecurityDAO.searchSecuritys();
-            //Populate Securitys on TableView
-            populateSecuritys(SecurityData);
-        } catch (SQLException e){
-            System.out.println("Error occurred while getting Securitys information from DB.\n" + e);
-            throw e;
-        }
+     	Session session = factory.openSession();
+        try{
+         		ObservableList<Security> securityData = FXCollections.observableList(session.createQuery("FROM Security").list());
+         		populateSecuritys(securityData);
+
+         }catch (HibernateException e) {
+            e.printStackTrace(); 
+         }finally {
+            session.close(); 
+         }
     }
 
     //Populate Securitys for TableView with MultiThreading (This is for example usage)
-    private void fillSecurityTable(ActionEvent event) throws SQLException, ClassNotFoundException {
+    /*private void fillSecurityTable(ActionEvent event) throws SQLException, ClassNotFoundException {
         Task<List<Security>> task = new Task<List<Security>>(){
             @Override
             public ObservableList<Security> call() throws Exception{
@@ -134,7 +162,7 @@ public class SecurityController {
         task.setOnFailed(e-> task.getException().printStackTrace());
         task.setOnSucceeded(e-> SecurityTable.setItems((ObservableList<Security>) task.getValue()));
         exec.execute(task);
-    }
+    }*/
 
     //Populate Security
     @FXML
@@ -174,35 +202,70 @@ public class SecurityController {
     //Update Security's email with the email which is written on newEmailText field
     @FXML
     private void updateSecurityNames (ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        try {
-            SecurityDAO.updateSecurityName(IdText.getText(),newNameText.getText(), newShortCodeText.getText(), newExchangeCombo.getValue().getId());
-            resultArea.setText("Email has been updated for, Security id: " + IdText.getText() + "\n");
-        } catch (SQLException e) {
-            resultArea.setText("Problem occurred while updating email: " + e);
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try{
+           tx = session.beginTransaction();
+           Security security = (Security)session.get(Security.class, Integer.parseInt(IdText.getText())); 
+           security.setName(newNameText.getText());
+           security.setCode(newShortCodeText.getText());
+  	 session.update(security); 
+           tx.commit();
+           resultArea.setText("Security has been updated for, Security id: " + IdText.getText() + "\n");
+        }catch (HibernateException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace();
+           resultArea.setText("Problem occurred while updating Security: " + e);
+        }finally {
+           session.close(); 
         }
     }
 
     //Insert an Security to the DB
     @FXML
     private void insertSecurity (ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        try {
-            SecurityDAO.insertSecurity(nameText.getText(),ShortCodeText.getText(),ExchangeCombo.getValue().getId());
-            resultArea.setText("Security inserted! \n");
-        } catch (SQLException e) {
-            resultArea.setText("Problem occurred while inserting Security " + e);
-            throw e;
+    	
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try{
+           tx = session.beginTransaction();
+           Security security = new Security();
+           security.setName(nameText.getText());
+           security.setCode(ShortCodeText.getText());
+           Exchange exchange = (Exchange)session.get(Exchange.class, ExchangeCombo.getValue().getId()); 
+           security.setExchange(exchange);
+           session.save(security);
+           tx.commit();
+           resultArea.setText("Security inserted! \n");
+        }catch (HibernateException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace();
+           resultArea.setText("Problem occurred while inserting Security " + e);
+        }finally {
+           session.close(); 
         }
+
     }
 
     //Delete an Security with a given Security Id from DB
     @FXML
     private void deleteSecurity (ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        try {
-            SecurityDAO.deleteSecurityWithId(IdText.getText());
-            resultArea.setText("Security deleted! Security id: " + IdText.getText() + "\n");
-        } catch (SQLException e) {
-            resultArea.setText("Problem occurred while deleting Security " + e);
-            throw e;
-        }
+		Session session = factory.openSession();
+		Transaction tx = null;
+	    try{
+	        tx = session.beginTransaction();
+	    		Security security = 
+	                    (Security)session.get(Security.class, Integer.parseInt(IdText.getText()));
+	    		session.delete(security);
+	    		tx.commit();
+	    		resultArea.setText("Security deleted! Security id: " + IdText.getText() + "\n");
+	            
+	    }catch (HibernateException e) {
+	        if (tx!=null) tx.rollback();
+	        resultArea.setText("Problem occurred while deleting Security " + e);
+	        e.printStackTrace(); 
+	    }finally {
+	       session.close(); 
+	    }
     }
 }

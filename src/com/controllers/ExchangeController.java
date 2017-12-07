@@ -101,8 +101,8 @@ public class ExchangeController {
     //Search all Exchanges
     @FXML
     private void searchExchanges(ActionEvent actionEvent) throws ClassNotFoundException {
-    	Session session = factory.openSession();
-        try{
+     	Session session = factory.openSession();
+       try{
         		ObservableList<Exchange> exchangeData = FXCollections.observableList(session.createQuery("FROM Exchange").list());
         		populateExchanges(exchangeData);
         }catch (HibernateException e) {

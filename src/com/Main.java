@@ -62,7 +62,7 @@ public class Main extends Application {
             //First, load EmployeeView from EmployeeView.fxml
             FXMLLoader loader = new FXMLLoader();
 
-            loader.setLocation(Main.class.getResource("views/InvestorView.fxml"));
+            loader.setLocation(Main.class.getResource("views/SecurityView.fxml"));
 
             AnchorPane employeeOperationsView = (AnchorPane) loader.load();
 
