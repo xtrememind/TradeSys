@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.password">9fhdfr5nJm</property>
+        <property name="hibernate.connection.url">jdbc:mysql://sql9.freemysqlhosting.net:3306/sql9208938</property>
+        <property name="hibernate.connection.username">sql9208938</property>
+        <property name="hibernate.default_schema">sql9208938</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.search.autoregister_listeners">true</property>
+        <property name="hibernate.validator.apply_to_ddl">false</property>
+        <mapping resource="com/models/RoleType.hbm.xml"/>
+        <mapping resource="com/models/PortfolioBalance.hbm.xml"/>
+        <mapping resource="com/models/CashAccount.hbm.xml"/>
+        <mapping resource="com/models/Portfolio.hbm.xml"/>
+        <mapping resource="com/models/SecurityPrice.hbm.xml"/>
+        <mapping resource="com/models/Order.hbm.xml"/>
+        <mapping resource="com/models/Security.hbm.xml"/>
+        <mapping resource="com/models/CashTransaction.hbm.xml"/>
+        <mapping resource="com/models/User.hbm.xml"/>
+        <mapping resource="com/models/Employees.hbm.xml"/>
+        <mapping resource="com/models/Exchange.hbm.xml"/>
+        <mapping resource="com/models/Investor.hbm.xml"/>
+        <mapping resource="com/models/PortfolioTransaction.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>

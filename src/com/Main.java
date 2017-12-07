@@ -61,7 +61,11 @@ public class Main extends Application {
         try {
             //First, load EmployeeView from EmployeeView.fxml
             FXMLLoader loader = new FXMLLoader();
+<<<<<<< HEAD
             loader.setLocation(Main.class.getResource("views/LoginView.fxml"));
+=======
+            loader.setLocation(Main.class.getResource("views/InvestorView.fxml"));
+>>>>>>> branch 'Hibernate' of https://github.com/xtrememind/TradeSys/
             AnchorPane employeeOperationsView = (AnchorPane) loader.load();
 
             // Set Employee Operations view into the center of root layout.

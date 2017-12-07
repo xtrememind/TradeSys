@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Dec 6, 2017 5:39:32 PM by Hibernate Tools 5.2.6.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="sql9208938" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.models.Employees" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="Employees">
+        <id name="employeeId" type="java.lang.Integer">
+            <column name="EMPLOYEE_ID"/>
+            <generator class="identity"/>
+        </id>
+        <property generated="never" lazy="false" name="firstName" optimistic-lock="true" type="string" unique="false">
+            <column length="45" name="FIRST_NAME"/>
+        </property>
+        <property generated="never" lazy="false" name="lastName" optimistic-lock="true" type="string" unique="false">
+            <column length="45" name="LAST_NAME"/>
+        </property>
+        <property generated="never" lazy="false" name="email" optimistic-lock="true" type="string" unique="false">
+            <column length="45" name="EMAIL"/>
+        </property>
+        <property generated="never" lazy="false" name="hireDate" optimistic-lock="true" type="timestamp" unique="false">
+            <column length="19" name="HIRE_DATE"/>
+        </property>
+        <property generated="never" lazy="false" name="jobId" optimistic-lock="true" type="string" unique="false">
+            <column length="45" name="JOB_ID"/>
+        </property>
+        <property generated="never" lazy="false" name="phoneNumber" optimistic-lock="true" type="string" unique="false">
+            <column length="45" name="phone_number"/>
+        </property>
+        <property generated="never" lazy="false" name="salary" optimistic-lock="true" type="java.lang.Integer" unique="false">
+            <column name="salary"/>
+        </property>
+        <property generated="never" lazy="false" name="commissionPct" optimistic-lock="true" type="string" unique="false">
+            <column length="45" name="commission_pct"/>
+        </property>
+        <property generated="never" lazy="false" name="managerId" optimistic-lock="true" type="java.lang.Integer" unique="false">
+            <column name="manager_id"/>
+        </property>
+        <property generated="never" lazy="false" name="departmentId" optimistic-lock="true" type="java.lang.Integer" unique="false">
+            <column name="department_id"/>
+        </property>
+    </class>
+</hibernate-mapping>
