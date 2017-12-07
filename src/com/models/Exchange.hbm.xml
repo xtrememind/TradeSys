@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Dec 6, 2017 5:39:32 PM by Hibernate Tools 5.2.6.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="sql9208938" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.models.Exchange" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="Exchange">
+        <id name="id" type="java.lang.Integer">
+            <column name="Id"/>
+            <generator class="identity"/>
+        </id>
+        <property generated="never" lazy="false" name="name" optimistic-lock="true" type="string" unique="false">
+            <column length="100" name="Name"/>
+        </property>
+        <property generated="never" lazy="false" name="shortName" optimistic-lock="true" type="string" unique="false">
+            <column length="10" name="ShortName"/>
+        </property>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="securities" optimistic-lock="true" sort="unsorted" table="Security">
+            <key on-delete="noaction">
+                <column name="ExchangeID" not-null="true"/>
+            </key>
+            <one-to-many class="com.models.Security" embed-xml="true" not-found="exception"/>
+        </set>
+    </class>
+</hibernate-mapping>

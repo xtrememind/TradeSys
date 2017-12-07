@@ -2,25 +2,28 @@ package com.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.sql.Date;
-import java.sql.SQLException;
-import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
 import com.models.Exchange;
-import com.models.ExchangeDAO;
 
 public class ExchangeController {
 
+    private static SessionFactory factory;
     @FXML
     private TextField IdText;
     @FXML
@@ -61,7 +64,12 @@ public class ExchangeController {
         When you want to use IntegerProperty or DoubleProperty, the setCellValueFactory(...)
         must have an additional asObject():
         */
-
+        try{
+            factory = new Configuration().configure().buildSessionFactory();
+         }catch (Throwable ex) { 
+          System.err.println("Failed to create sessionFactory object." + ex);
+          throw new ExceptionInInitializerError(ex); 
+       }
         //For multithreading: Create executor that uses daemon threads:
         exec = Executors.newCachedThreadPool((runnable) -> {
             Thread t = new Thread (runnable);
@@ -69,54 +77,54 @@ public class ExchangeController {
             return t;
         });
 
-        IdColumn.setCellValueFactory(cellData -> cellData.getValue().IdProperty().asObject());
-        nameColumn.setCellValueFactory(cellData -> cellData.getValue().NameProperty());
-        shortNameColumn.setCellValueFactory(cellData -> cellData.getValue().ShortNameProperty());
+        IdColumn.setCellValueFactory(new PropertyValueFactory("id"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory("Name"));
+        shortNameColumn.setCellValueFactory(new PropertyValueFactory("ShortName"));
     }
 
 
     //Search an Exchange
     @FXML
-    private void searchExchange (ActionEvent actionEvent) throws ClassNotFoundException, SQLException {
-        try {
-            //Get Exchange information
-            Exchange exchange = ExchangeDAO.searchExchange(IdText.getText());
-            //Populate Exchange on TableView and Display on TextArea
-            populateAndShowExchange(exchange);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            resultArea.setText("Error occurred while getting Exchange information from DB.\n" + e);
-            throw e;
+    private void searchExchange (ActionEvent actionEvent) throws ClassNotFoundException {
+    	Session session = factory.openSession();
+        try{
+        		Exchange exchange = 
+                        (Exchange)session.get(Exchange.class, Integer.parseInt(IdText.getText()));
+           populateAndShowExchange(exchange);
+        }catch (HibernateException e) {
+           e.printStackTrace(); 
+        }finally {
+           session.close(); 
         }
     }
 
     //Search all Exchanges
     @FXML
-    private void searchExchanges(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        try {
-            //Get all Exchanges information
-            ObservableList<Exchange> exchangeData = ExchangeDAO.searchExchanges();
-            //Populate Exchanges on TableView
-            populateExchanges(exchangeData);
-        } catch (SQLException e){
-            System.out.println("Error occurred while getting Exchanges information from DB.\n" + e);
-            throw e;
+    private void searchExchanges(ActionEvent actionEvent) throws ClassNotFoundException {
+    	Session session = factory.openSession();
+        try{
+        		ObservableList<Exchange> exchangeData = FXCollections.observableList(session.createQuery("FROM Exchange").list());
+        		populateExchanges(exchangeData);
+        }catch (HibernateException e) {
+           e.printStackTrace(); 
+        }finally {
+           session.close(); 
         }
     }
 
     //Populate Exchanges for TableView with MultiThreading (This is for example usage)
-    private void fillExchangeTable(ActionEvent event) throws SQLException, ClassNotFoundException {
-        Task<List<Exchange>> task = new Task<List<Exchange>>(){
-            @Override
-            public ObservableList<Exchange> call() throws Exception{
-                return ExchangeDAO.searchExchanges();
-            }
-        };
-
-        task.setOnFailed(e-> task.getException().printStackTrace());
-        task.setOnSucceeded(e-> exchangeTable.setItems((ObservableList<Exchange>) task.getValue()));
-        exec.execute(task);
-    }
+//    private void fillExchangeTable(ActionEvent event) throws SQLException, ClassNotFoundException {
+//        Task<List<Exchange>> task = new Task<List<Exchange>>(){
+//            @Override
+//            public ObservableList<Exchange> call() throws Exception{
+//                return ExchangeDAO.searchExchanges();
+//            }
+//        };
+//
+//        task.setOnFailed(e-> task.getException().printStackTrace());
+//        task.setOnSucceeded(e-> exchangeTable.setItems((ObservableList<Exchange>) task.getValue()));
+//        exec.execute(task);
+//    }
 
     //Populate Exchange
     @FXML
@@ -156,37 +164,68 @@ public class ExchangeController {
 
     //Update Exchange's email with the email which is written on newEmailText field
     @FXML
-    private void updateExchangeNames (ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        try {
-            ExchangeDAO.updateExchangeName(IdText.getText(),newNameText.getText());
-            ExchangeDAO.updateExchangeShortName(IdText.getText(),newShortNameText.getText());
-            resultArea.setText("Email has been updated for, Exchange id: " + IdText.getText() + "\n");
-        } catch (SQLException e) {
-            resultArea.setText("Problem occurred while updating email: " + e);
+    private void updateExchangeNames (ActionEvent actionEvent) throws ClassNotFoundException {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try{
+           tx = session.beginTransaction();
+           Exchange exchange = 
+                      (Exchange)session.get(Exchange.class, Integer.parseInt(IdText.getText())); 
+           exchange.setName(newNameText.getText());
+           exchange.setShortName(newShortNameText.getText());
+  	 session.update(exchange); 
+           tx.commit();
+           resultArea.setText("Exchange has been updated for, Exchange id: " + IdText.getText() + "\n");
+        }catch (HibernateException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace();
+           resultArea.setText("Problem occurred while updating Exchange: " + e);
+        }finally {
+           session.close(); 
         }
     }
 
     //Insert an Exchange to the DB
     @FXML
-    private void insertExchange (ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        try {
-            ExchangeDAO.insertExchange(nameText.getText(),shortNameText.getText());
-            resultArea.setText("Exchange inserted! \n");
-        } catch (SQLException e) {
-            resultArea.setText("Problem occurred while inserting Exchange " + e);
-            throw e;
+    private void insertExchange (ActionEvent actionEvent) throws ClassNotFoundException {
+    	
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try{
+           tx = session.beginTransaction();
+           Exchange exchange = new Exchange();
+           exchange.setName(nameText.getText());
+           exchange.setShortName(shortNameText.getText()); 
+        		   session.save(exchange);
+           tx.commit();
+        }catch (HibernateException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace();
+        }finally {
+           session.close(); 
         }
     }
 
     //Delete an Exchange with a given Exchange Id from DB
     @FXML
-    private void deleteExchange (ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        try {
-            ExchangeDAO.deleteExchangeWithId(IdText.getText());
-            resultArea.setText("Exchange deleted! Exchange id: " + IdText.getText() + "\n");
-        } catch (SQLException e) {
+    private void deleteExchange (ActionEvent actionEvent) throws ClassNotFoundException
+    {
+    		Session session = factory.openSession();
+    		Transaction tx = null;
+        try{
+            tx = session.beginTransaction();
+        		Exchange exchange = 
+                        (Exchange)session.get(Exchange.class, Integer.parseInt(IdText.getText()));
+        		session.delete(exchange);
+        		tx.commit();
+        		resultArea.setText("Exchange deleted! Exchange id: " + IdText.getText() + "\n");
+                
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
             resultArea.setText("Problem occurred while deleting Exchange " + e);
-            throw e;
+            e.printStackTrace(); 
+        }finally {
+           session.close(); 
         }
     }
 }

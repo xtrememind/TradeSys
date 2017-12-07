@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Dec 6, 2017 5:39:32 PM by Hibernate Tools 5.2.6.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="sql9208938" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.models.Order" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="Order">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one class="com.models.Portfolio" embed-xml="true" fetch="select" insert="true" name="portfolioByBuyerPortfolioId" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="BuyerPortfolioID" not-null="true"/>
+        </many-to-one>
+        <many-to-one class="com.models.Portfolio" embed-xml="true" fetch="select" insert="true" name="portfolioBySellerPortfolioId" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="SellerPortfolioID" not-null="true"/>
+        </many-to-one>
+        <many-to-one class="com.models.Security" embed-xml="true" fetch="select" insert="true" name="security" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="SecurityID" not-null="true"/>
+        </many-to-one>
+        <many-to-one class="com.models.User" embed-xml="true" fetch="select" insert="true" name="user" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="UserID" not-null="true"/>
+        </many-to-one>
+        <property generated="never" lazy="false" name="date" optimistic-lock="true" type="timestamp" unique="false">
+            <column length="19" name="Date" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="quantity" optimistic-lock="true" type="int" unique="false">
+            <column name="Quantity" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="price" optimistic-lock="true" type="big_decimal" unique="false">
+            <column name="Price" not-null="true" precision="8"/>
+        </property>
+        <property generated="never" lazy="false" name="buyerBrokerFees" optimistic-lock="true" type="big_decimal" unique="false">
+            <column name="BuyerBrokerFees" not-null="true" precision="8"/>
+        </property>
+        <property generated="never" lazy="false" name="buyerMarketFees" optimistic-lock="true" type="big_decimal" unique="false">
+            <column name="BuyerMarketFees" not-null="true" precision="8"/>
+        </property>
+        <property generated="never" lazy="false" name="buyerOrderAmount" optimistic-lock="true" type="big_decimal" unique="false">
+            <column name="BuyerOrderAmount" not-null="true" precision="8"/>
+        </property>
+        <property generated="never" lazy="false" name="selerBrokerFees" optimistic-lock="true" type="big_decimal" unique="false">
+            <column name="SelerBrokerFees" not-null="true" precision="8"/>
+        </property>
+        <property generated="never" lazy="false" name="sellerMarketFees" optimistic-lock="true" type="big_decimal" unique="false">
+            <column name="SellerMarketFees" not-null="true" precision="8"/>
+        </property>
+        <property generated="never" lazy="false" name="sellerOrderAmount" optimistic-lock="true" type="string" unique="false">
+            <column length="45" name="SellerOrderAmount" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

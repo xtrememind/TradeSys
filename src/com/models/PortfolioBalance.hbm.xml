@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Dec 6, 2017 5:39:32 PM by Hibernate Tools 5.2.6.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="sql9208938" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.models.PortfolioBalance" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="PortfolioBalance">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one class="com.models.Portfolio" embed-xml="true" fetch="select" insert="true" name="portfolio" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="PortfolioID" not-null="true"/>
+        </many-to-one>
+        <many-to-one class="com.models.Security" embed-xml="true" fetch="select" insert="true" name="security" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="SecurityID" not-null="true"/>
+        </many-to-one>
+        <property generated="never" lazy="false" name="balance" optimistic-lock="true" type="int" unique="false">
+            <column name="Balance" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

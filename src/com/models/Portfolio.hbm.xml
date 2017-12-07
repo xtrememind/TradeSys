@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Dec 6, 2017 5:39:32 PM by Hibernate Tools 5.2.6.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="sql9208938" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.models.Portfolio" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="Portfolio">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one class="com.models.Investor" embed-xml="true" fetch="select" insert="true" name="investor" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="InvestorID"/>
+        </many-to-one>
+        <property generated="never" lazy="false" name="brokerFees" optimistic-lock="true" type="int" unique="false">
+            <column name="BrokerFees" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="marketFees" optimistic-lock="true" type="int" unique="false">
+            <column name="MarketFees" not-null="true"/>
+        </property>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="portfolioTransactions" optimistic-lock="true" sort="unsorted" table="PortfolioTransaction">
+            <key on-delete="noaction">
+                <column name="PortfolioID" not-null="true"/>
+            </key>
+            <one-to-many class="com.models.PortfolioTransaction" embed-xml="true" not-found="exception"/>
+        </set>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="portfolioBalances" optimistic-lock="true" sort="unsorted" table="PortfolioBalance">
+            <key on-delete="noaction">
+                <column name="PortfolioID" not-null="true"/>
+            </key>
+            <one-to-many class="com.models.PortfolioBalance" embed-xml="true" not-found="exception"/>
+        </set>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="ordersForBuyerPortfolioId" optimistic-lock="true" sort="unsorted" table="Order">
+            <key on-delete="noaction">
+                <column name="BuyerPortfolioID" not-null="true"/>
+            </key>
+            <one-to-many class="com.models.Order" embed-xml="true" not-found="exception"/>
+        </set>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="ordersForSellerPortfolioId" optimistic-lock="true" sort="unsorted" table="Order">
+            <key on-delete="noaction">
+                <column name="SellerPortfolioID" not-null="true"/>
+            </key>
+            <one-to-many class="com.models.Order" embed-xml="true" not-found="exception"/>
+        </set>
+    </class>
+</hibernate-mapping>

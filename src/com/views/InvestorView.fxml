@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="344.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controllers.InvestorController">
+   <children>
+      <TextField fx:id="IdText" layoutX="193.0" layoutY="133.0" prefHeight="25.0" prefWidth="67.0" promptText="Emp ID" />
+      <Label layoutX="194.0" layoutY="113.0" text="Investor ID" />
+      <Button fx:id="searchInvestorBtn" layoutX="193.0" layoutY="162.0" mnemonicParsing="false" onAction="#searchInvestor" prefHeight="27.0" prefWidth="67.0" text="Search" />
+      <Button fx:id="deleteInvestorBtn" layoutX="365.0" layoutY="162.0" mnemonicParsing="false" onAction="#deleteInvestor" prefHeight="27.0" prefWidth="76.0" text="Delete" />
+      <Button fx:id="updateInvestorBtn" layoutX="273.0" layoutY="162.0" mnemonicParsing="false" onAction="#updateInvestorNames" prefHeight="27.0" prefWidth="85.0" text="Update" />
+      <Button fx:id="addInvestorBtn" layoutX="475.0" layoutY="68.0" mnemonicParsing="false" onAction="#insertInvestor" prefHeight="27.0" prefWidth="114.0" text="Create Investor" />
+      <TextArea fx:id="resultArea" layoutX="19.0" layoutY="195.0" prefHeight="134.0" prefWidth="167.0" wrapText="true" />
+      <Label layoutX="21.0" layoutY="175.0" text="Result Console">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <TextField fx:id="newNameText" layoutX="275.0" layoutY="133.0" prefHeight="27.0" prefWidth="259.0" promptText="new name" />
+      <Label layoutX="278.0" layoutY="113.0" text="New Name" />
+      <VBox layoutX="97.0" layoutY="24.0" spacing="4.0" />
+      <VBox layoutX="9.0" layoutY="28.0" prefWidth="67.0" spacing="12.0" />
+      <TableView fx:id="investorTable" editable="true" layoutX="193.0" layoutY="194.0" prefHeight="136.0" prefWidth="374.0" tableMenuButtonVisible="true">
+        <columns>
+            <TableColumn fx:id="IdColumn" prefWidth="57.0" text="Id" />
+          <TableColumn fx:id="nameColumn" prefWidth="108.0" text="Name" />
+            <TableColumn fx:id="brokerFeesColumn" prefWidth="87.0" text="BrokerFees" />
+            <TableColumn fx:id="marketFeesColumn" prefWidth="87.0" text="Market Fees" />
+        </columns>
+      </TableView>
+      <Button fx:id="searchInvestorBtn" layoutX="450.0" layoutY="162.0" mnemonicParsing="false" onAction="#searchInvestors" prefHeight="27.0" prefWidth="85.0" text="Search All" />
+      <TextField fx:id="nameText" layoutX="134.0" layoutY="8.0" prefHeight="27.0" prefWidth="311.0" promptText="Name" />
+      <Label layoutX="15.0" layoutY="14.0" prefHeight="17.0" prefWidth="105.0" text="Investor Name" />
+      <TextField fx:id="BrokerFeesText" layoutX="134.0" layoutY="38.0" prefHeight="27.0" prefWidth="311.0" promptText="Name" />
+      <Label layoutX="15.0" layoutY="44.0" prefHeight="17.0" prefWidth="105.0" text="Broker Fees" />
+      <TextField fx:id="MarketFeesText" layoutX="134.0" layoutY="68.0" prefHeight="27.0" prefWidth="311.0" promptText="Name" />
+      <Label layoutX="15.0" layoutY="74.0" prefHeight="17.0" prefWidth="105.0" text="Market Fees" />
+   </children>
+</AnchorPane>

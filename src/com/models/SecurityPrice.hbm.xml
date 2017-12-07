@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Dec 6, 2017 5:39:32 PM by Hibernate Tools 5.2.6.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="sql9208938" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.models.SecurityPrice" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="SecurityPrice">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one class="com.models.Security" embed-xml="true" fetch="select" insert="true" name="security" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="SecurityID" not-null="true"/>
+        </many-to-one>
+        <property generated="never" lazy="false" name="date" optimistic-lock="true" type="timestamp" unique="false">
+            <column length="19" name="Date" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="openPrice" optimistic-lock="true" type="big_decimal" unique="false">
+            <column name="OpenPrice" not-null="true" precision="8"/>
+        </property>
+        <property generated="never" lazy="false" name="highPrice" optimistic-lock="true" type="big_decimal" unique="false">
+            <column name="HighPrice" not-null="true" precision="8"/>
+        </property>
+        <property generated="never" lazy="false" name="lowPrice" optimistic-lock="true" type="big_decimal" unique="false">
+            <column name="LowPrice" not-null="true" precision="8"/>
+        </property>
+        <property generated="never" lazy="false" name="closePrice" optimistic-lock="true" type="big_decimal" unique="false">
+            <column name="ClosePrice" not-null="true" precision="8"/>
+        </property>
+    </class>
+</hibernate-mapping>
