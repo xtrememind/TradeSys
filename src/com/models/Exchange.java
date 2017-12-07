@@ -14,61 +14,45 @@ public class Exchange implements java.io.Serializable {
 	private String shortName;
 	private Set<Security> securities = new HashSet<Security>(0);
 
-import javafx.beans.property.*;
-
-public class Exchange {
-    //Declare Employees Table Columns
-    private IntegerProperty id;
-    private StringProperty name;
-    private StringProperty short_name;
-    //Constructor
-    public Exchange() {
-        this.id = new SimpleIntegerProperty();
-        this.name = new SimpleStringProperty();
-        this.short_name = new SimpleStringProperty();
-    }
-
-    //employee_id
-    public int getId() {
-        return id.get();
-    }
-
-    public void setId(int Id){
-        this.id.set(Id);
-    }
-
-    public IntegerProperty IdProperty(){
-        return id;
-    }
-
-    //first_name
-    public String getName () {
-        return name.get();
-    }
-
-    public void setName(String Name){
-        this.name.set(Name);
-    }
-
-    public StringProperty NameProperty() {
-        return name;
-    }
-
-    //last_name
-    public String getShortName () {
-        return short_name.get();
-    }
-
-    public void setShortName(String ShortName){
-        this.short_name.set(ShortName);
-    }
-
-    public StringProperty ShortNameProperty() {
-        return short_name;
-    }
-
-	@Override
-	public String toString() {
-		return short_name.get();
+	public Exchange() {
 	}
+
+	public Exchange(String name, String shortName, Set<Security> securities) {
+		this.name = name;
+		this.shortName = shortName;
+		this.securities = securities;
+	}
+
+	public Integer getId() {
+		return this.id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getShortName() {
+		return this.shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
+	}
+
+	public Set<Security> getSecurities() {
+		return this.securities;
+	}
+
+	public void setSecurities(Set<Security> securities) {
+		this.securities = securities;
+	}
+
 }
