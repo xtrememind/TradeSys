@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -101,17 +102,16 @@ public class InvestorController {
 
     //Search an Investor
     @FXML
-    private void searchInvestor (ActionEvent actionEvent) throws ClassNotFoundException, SQLException {
-//        try {
-//            //Get Investor information
-//            Investor investor = InvestorDAO.searchInvestor(IdText.getText());
-//            //Populate Investor on TableView and Display on TextArea
-//            populateAndShowInvestor(investor);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            resultArea.setText("Error occurred while getting Investor information from DB.\n" + e);
-//            throw e;
-//        }
+    private void searchInvestor (ActionEvent actionEvent) throws ClassNotFoundException, SQLException {    	Session session = factory.openSession();
+    try{
+		Investor investor = 
+                (Investor)session.get(Investor.class, Integer.parseInt(IdText.getText()));
+		populateAndShowInvestor(investor);
+		}catch (HibernateException e) {
+		   e.printStackTrace(); 
+		}finally {
+		   session.close(); 
+		}
     }
 
     //Search all Investors
@@ -156,9 +156,7 @@ public class InvestorController {
     //Set Investor information to Text Area
     @FXML
     private void setInvestorInfoToTextArea ( Investor investor) {
-//        resultArea.setText("Name: " + investor.getName() + "\n" +
-//                "Broker Fees: " + investor.getPortfolio().getBrokerFees() + "\n" +
-//                "Market Fees: " + investor.getPortfolio().getMarketFees());
+        resultArea.setText("Name: " + investor.getName());
     }
 
     //Populate Investor for TableView and Display Investor on TextArea
@@ -182,13 +180,30 @@ public class InvestorController {
     //Update Investor's email with the email which is written on newEmailText field
     @FXML
     private void updateInvestorNames (ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-//        try {
-//            InvestorDAO.updateInvestorName(IdText.getText(),newNameText.getText());
-//            PortfolioDAO.updatePortfolioDetails(IdText.getText(), Integer.parseInt(newBrokerFeesText.getText()), Integer.parseInt(newMarketFeesText.getText()));
-//            resultArea.setText("Record has been updated for, Investor id: " + IdText.getText() + "\n");
-//        } catch (SQLException e) {
-//            resultArea.setText("Problem occurred while updating Record: " + e);
-//        }
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try{
+           tx = session.beginTransaction();
+           Investor investor = 
+                      (Investor)session.get(Investor.class, Integer.parseInt(IdText.getText())); 
+           investor.setName(newNameText.getText());
+           Set<Portfolio> portfolios = investor.getPortfolios();
+           for (Portfolio portforlio: portfolios)
+           {
+        	   		portforlio.setBrokerFees(Integer.parseInt(newBrokerFeesText.getText()));
+        	   		portforlio.setMarketFees(Integer.parseInt(newMarketFeesText.getText())); 
+           }
+           investor.setPortfolios(portfolios);
+           session.update(investor); 
+           tx.commit();
+           resultArea.setText("Exchange has been updated for, Exchange id: " + IdText.getText() + "\n");
+        }catch (HibernateException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace();
+           resultArea.setText("Problem occurred while updating Exchange: " + e);
+        }finally {
+           session.close(); 
+        }
     }
 
     //Insert an Investor to the DB
