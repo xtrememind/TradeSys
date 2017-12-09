@@ -1,13 +1,18 @@
 package com;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
+import com.controllers.RootLayoutController;
 
 //Main class which extends from Application Class
 public class Main extends Application {
@@ -30,7 +35,7 @@ public class Main extends Application {
         initRootLayout();
 
         //3) Display the EmployeeOperations View
-        showEmployeeView();
+        showView("Exchange");
     }
 
     //Initializes the root layout.
@@ -45,10 +50,10 @@ public class Main extends Application {
             Scene scene = new Scene(rootLayout); //We are sending rootLayout to the Scene.
             primaryStage.setScene(scene); //Set the scene in primary stage.
 
-            /*//Give the controller access to the main.
+            //Give the controller access to the main.
             RootLayoutController controller = loader.getController();
-            controller.setMain(this);*/
-
+            controller.setMain(this);
+            
             //Third, show the primary stage
             primaryStage.show(); //Display the primary stage
         } catch (IOException e) {
@@ -56,13 +61,12 @@ public class Main extends Application {
         }
     }
 
-    //Shows the employee operations view inside the root layout.
-    public void showEmployeeView() {
+    public void showView(String view) {
         try {
             //First, load EmployeeView from EmployeeView.fxml
             FXMLLoader loader = new FXMLLoader();
 
-            loader.setLocation(Main.class.getResource("views/SecurityView.fxml"));
+            loader.setLocation(Main.class.getResource("views/" + view + "View.fxml"));
 
             AnchorPane employeeOperationsView = (AnchorPane) loader.load();
 

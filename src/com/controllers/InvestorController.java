@@ -1,19 +1,25 @@
 package com.controllers;
 
+import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -24,6 +30,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import com.models.CashAccount;
 import com.models.Exchange;
 import com.models.Investor;
 import com.models.Portfolio;
@@ -95,6 +102,26 @@ public class InvestorController {
         nameColumn.setCellValueFactory(new PropertyValueFactory("Name"));
         brokerFeesColumn.setCellValueFactory(new PropertyValueFactory("BrokerFees"));
         marketFeesColumn.setCellValueFactory(new PropertyValueFactory("MarketFees"));
+        
+//        nameColumn.setCellValueFactory(new Callback<CellDataFeatures<Investor, String>, ObservableValue<String>>() {
+//            @Override
+//            public ObservableValue<String> call(CellDataFeatures<Investor, String> c) {
+//                return new SimpleStringProperty(c.getValue().GetName());                
+//            }
+//        }); 
+//
+//        brokerFeesColumn.setCellValueFactory(new Callback<CellDataFeatures<Investor, Integer>, ObservableValue<Integer>>() {
+//            @Override
+//            public ObservableValue<Integer> call(CellDataFeatures<Investor, Integer> c) {
+//                return new SimpleIntegerProperty(c.getValue().getId());                
+//            }
+//        }); 
+//            
+//        brokerFeesColumn.setCellValueFactory(cellData -> {
+//            Portfolio[] Portfolios = cellData.getValue().getPortfolios().toArray(new Portfolio[0]);
+//            Portfolio portfolio = Portfolios[0];
+//            return new ReadOnlyIntegerWrapper(intValues.get(portfolio.getBrokerFees()));
+//        });
 
 
     }
@@ -215,12 +242,16 @@ public class InvestorController {
            tx = session.beginTransaction();
            Investor investor = new Investor();
            investor.setName(nameText.getText());
-           int investorID = (int)session.save(investor);
+           session.save(investor);
            Portfolio portfolio = new Portfolio();
            portfolio.setBrokerFees(Integer.parseInt(BrokerFeesText.getText()));
            portfolio.setMarketFees(Integer.parseInt(MarketFeesText.getText()));
            portfolio.setInvestor(investor);
+           CashAccount cashAccount = new CashAccount();
+           cashAccount.setBalance(BigDecimal.valueOf(0));
+           cashAccount.setInvestor(investor);
            session.save(portfolio);
+           session.save(cashAccount);
            tx.commit();
            resultArea.setText("Investor inserted! \n");
         }catch (HibernateException e) {
