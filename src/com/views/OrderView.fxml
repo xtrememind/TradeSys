@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="344.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controllers.OrderController">
+   <children>
+      <Button fx:id="addOrderBtn" layoutX="487.0" layoutY="300.0" mnemonicParsing="false" onAction="#insertOrder" text="Create Order" />
+      <TextArea fx:id="resultArea" layoutX="19.0" layoutY="268.0" prefHeight="61.0" prefWidth="460.0" wrapText="true" />
+      <Label layoutX="19.0" layoutY="246.0" text="Result Console">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <VBox layoutX="97.0" layoutY="24.0" spacing="4.0" />
+      <VBox layoutX="9.0" layoutY="28.0" prefWidth="67.0" spacing="12.0" />
+      <Label layoutX="42.0" layoutY="30.0" prefHeight="17.0" prefWidth="105.0" text="Security" />
+      <Label layoutX="42.0" layoutY="67.0" prefHeight="17.0" prefWidth="98.0" text="Buyer Portfolio" />
+      <Label layoutX="41.0" layoutY="105.0" prefHeight="17.0" prefWidth="98.0" text="Seller Portfolio" />
+      <Label layoutX="40.0" layoutY="142.0" prefHeight="17.0" prefWidth="98.0" text="Quantity" />
+      <TextField fx:id="quantityText" layoutX="147.0" layoutY="137.0" prefHeight="27.0" prefWidth="98.0" promptText="Quantity" />
+      <Label layoutX="40.0" layoutY="177.0" prefHeight="17.0" prefWidth="98.0" text="Price" />
+      <TextField fx:id="priceText" layoutX="145.0" layoutY="172.0" prefHeight="27.0" prefWidth="98.0" promptText="Price" />
+      <Label layoutX="39.0" layoutY="212.0" prefHeight="17.0" prefWidth="98.0" text="User" />
+      <TextField fx:id="userText" layoutX="145.0" layoutY="207.0" prefHeight="27.0" prefWidth="98.0" promptText="User" />
+      <ComboBox fx:id="SecuritiesCombo" layoutX="147.0" layoutY="25.0" prefHeight="27.0" prefWidth="178.0" />
+      <ComboBox fx:id="BuyerPortfolioCombo" layoutX="147.0" layoutY="62.0" prefHeight="27.0" prefWidth="178.0" />
+      <ComboBox fx:id="SellerPortfolioCombo" layoutX="147.0" layoutY="100.0" prefHeight="27.0" prefWidth="178.0" />
+   </children>
+</AnchorPane>

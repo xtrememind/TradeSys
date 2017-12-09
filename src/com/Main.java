@@ -34,7 +34,6 @@ public class Main extends Application {
         //2) Initialize RootLayout
         initRootLayout();
 
-        //3) Display the EmployeeOperations View
         showView("Exchange");
     }
 
@@ -63,15 +62,14 @@ public class Main extends Application {
 
     public void showView(String view) {
         try {
-            //First, load EmployeeView from EmployeeView.fxml
             FXMLLoader loader = new FXMLLoader();
 
             loader.setLocation(Main.class.getResource("views/" + view + "View.fxml"));
 
-            AnchorPane employeeOperationsView = (AnchorPane) loader.load();
+            AnchorPane oerationsView = (AnchorPane) loader.load();
 
-            // Set Employee Operations view into the center of root layout.
-            rootLayout.setCenter(employeeOperationsView);
+            // Set Operations view into the center of root layout.
+            rootLayout.setCenter(oerationsView);
         } catch (IOException e) {
             e.printStackTrace();
         }
