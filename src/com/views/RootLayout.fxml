@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0"
-	prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="com.controllers.RootLayoutController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controllers.RootLayoutController">
 	<top>
-		<MenuBar BorderPane.alignment="CENTER">
+		<MenuBar fx:id="MainMenu" BorderPane.alignment="CENTER">
 			<menus>
 				<Menu mnemonicParsing="false" text="Setup">
 					<items>
-						<MenuItem mnemonicParsing="false" onAction="#showExchangeView"
-							text="Exchanges" />
-						<MenuItem mnemonicParsing="false" onAction="#showSecurityView"
-							text="Securities" />
+						<MenuItem mnemonicParsing="false" onAction="#showExchangeView" text="Exchanges" />
+						<MenuItem mnemonicParsing="false" onAction="#showSecurityView" text="Securities" />
+                  <MenuItem mnemonicParsing="false" onAction="#showUserView" text="Users" />
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="Investors">
 					<items>
-						<MenuItem mnemonicParsing="false" onAction="#showInvestorView"
-							text="Investors" />
+						<MenuItem mnemonicParsing="false" onAction="#showInvestorView" text="Investors" />
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="Orders">
 					<items>
-						<MenuItem mnemonicParsing="false" onAction="#showOrderView"
-							text="Orders" />
+						<MenuItem mnemonicParsing="false" onAction="#showOrderView" text="Orders" />
 					</items>
 				</Menu>
+            <Menu mnemonicParsing="false" text="Accounting">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#showCashTransactionsView" text="Cash Transactions" />
+                  <MenuItem mnemonicParsing="false" onAction="#showPortfolioBalanceView" text="Portfolio Transactions" />
+               </items>
+            </Menu>
 			</menus>
 		</MenuBar>
 	</top>

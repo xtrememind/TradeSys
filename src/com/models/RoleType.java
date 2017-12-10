@@ -9,6 +9,11 @@ import java.util.Set;
  */
 public class RoleType implements java.io.Serializable {
 
+	@Override
+	public String toString() {
+		return roleName;
+	}
+
 	private Integer id;
 	private String roleName;
 	private Set<User> users = new HashSet<User>(0);

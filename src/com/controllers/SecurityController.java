@@ -209,6 +209,7 @@ public class SecurityController {
            Security security = (Security)session.get(Security.class, Integer.parseInt(IdText.getText())); 
            security.setName(newNameText.getText());
            security.setCode(newShortCodeText.getText());
+           security.setExchange(newExchangeCombo.getValue());
   	 session.update(security); 
            tx.commit();
            resultArea.setText("Security has been updated for, Security id: " + IdText.getText() + "\n");
@@ -232,8 +233,7 @@ public class SecurityController {
            Security security = new Security();
            security.setName(nameText.getText());
            security.setCode(ShortCodeText.getText());
-           Exchange exchange = (Exchange)session.get(Exchange.class, ExchangeCombo.getValue().getId()); 
-           security.setExchange(exchange);
+           security.setExchange(ExchangeCombo.getValue());
            session.save(security);
            tx.commit();
            resultArea.setText("Security inserted! \n");

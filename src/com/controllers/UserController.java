@@ -18,10 +18,16 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
 import com.models.*;
 
 public class UserController {
-
+    private static SessionFactory factory;
     @FXML
     private TextField IdText;
     @FXML
@@ -49,9 +55,9 @@ public class UserController {
     @FXML
     private TableColumn<User, String>  RoleColumn;
     @FXML
-    private ComboBox<Role> RoleCombo;
+    private ComboBox<RoleType> RoleCombo;
     @FXML
-    private ComboBox<Role> newRoleCombo;
+    private ComboBox<RoleType> newRoleCombo;
     @FXML
     //For MultiThreading
     private Executor exec;
@@ -73,6 +79,12 @@ public class UserController {
         must have an additional asObject():
         */
 
+        try{
+            factory = new Configuration().configure().buildSessionFactory();
+         }catch (Throwable ex) { 
+          System.err.println("Failed to create sessionFactory object." + ex);
+          throw new ExceptionInInitializerError(ex); 
+       }
         //For multithreading: Create executor that uses daemon threads:
         exec = Executors.newCachedThreadPool((runnable) -> {
             Thread t = new Thread (runnable);
@@ -83,15 +95,26 @@ public class UserController {
         IdColumn.setCellValueFactory(cellData -> cellData.getValue().IdProperty().asObject());
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().NameProperty());
         UserNameColumn.setCellValueFactory(cellData -> cellData.getValue().UserNameProperty());
-        RoleColumn.setCellValueFactory(cellData -> cellData.getValue().getRoleName());
+        RoleColumn.setCellValueFactory(cellData -> cellData.getValue().roleNameProperty());
 
-        ArrayList<Role> roles = new ArrayList<Role>();
+/*        ArrayList<Role> roles = new ArrayList<Role>();
         roles.add(new Role(1,"Admin"));
         roles.add(new Role(2,"Accountant"));
         roles.add(new Role(3,"Trader"));
 
         RoleCombo.setItems(FXCollections.observableList(roles));
-        newRoleCombo.setItems(FXCollections.observableList(roles));
+        newRoleCombo.setItems(FXCollections.observableList(roles));*/
+     	Session session = factory.openSession();
+        try{
+         		ObservableList<RoleType> roleData = FXCollections.observableList(session.createQuery("FROM RoleType").list());
+         		RoleCombo.setItems(roleData);
+         		newRoleCombo.setItems(roleData);
+         }catch (HibernateException e) {
+            e.printStackTrace(); 
+         }finally {
+            session.close(); 
+         }
+
         	
     }
 
@@ -99,34 +122,37 @@ public class UserController {
     //Search an User
     @FXML
     private void searchUser (ActionEvent actionEvent) throws ClassNotFoundException, SQLException {
-        try {
-            //Get User information
-            User User = UserDAO.searchUser(IdText.getText());
-            //Populate User on TableView and Display on TextArea
-            populateAndShowUser(User);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            resultArea.setText("Error occurred while getting User information from DB.\n" + e);
-            throw e;
+    	Session session = factory.openSession();
+        try{
+        		User user = 
+                        (User)session.get(User.class, Integer.parseInt(IdText.getText()));
+           populateAndShowUser(user);
+        }catch (HibernateException e) {
+           e.printStackTrace();
+           resultArea.setText("Error occurred while getting User information from DB.\n" + e);
+        }finally {
+           session.close(); 
         }
+
     }
 
     //Search all Users
     @FXML
     private void searchUsers(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        try {
-            //Get all Users information
-            ObservableList<User> UserData = UserDAO.searchUsers();
-            //Populate Users on TableView
-            populateUsers(UserData);
-        } catch (SQLException e){
-            System.out.println("Error occurred while getting Users information from DB.\n" + e);
-            throw e;
-        }
+     	Session session = factory.openSession();
+        try{
+         		ObservableList<User> userData = FXCollections.observableList(session.createQuery("FROM User").list());
+         		populateUsers(userData);
+
+         }catch (HibernateException e) {
+            e.printStackTrace(); 
+         }finally {
+            session.close(); 
+         }
     }
 
     //Populate Users for TableView with MultiThreading (This is for example usage)
-    private void fillUserTable(ActionEvent event) throws SQLException, ClassNotFoundException {
+  /*  private void fillUserTable(ActionEvent event) throws SQLException, ClassNotFoundException {
         Task<List<User>> task = new Task<List<User>>(){
             @Override
             public ObservableList<User> call() throws Exception{
@@ -137,7 +163,7 @@ public class UserController {
         task.setOnFailed(e-> task.getException().printStackTrace());
         task.setOnSucceeded(e-> UserTable.setItems((ObservableList<User>) task.getValue()));
         exec.execute(task);
-    }
+    }*/
 
     //Populate User
     @FXML
@@ -177,35 +203,71 @@ public class UserController {
     //Update User's email with the email which is written on newEmailText field
     @FXML
     private void updateUserNames (ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        try {
-            UserDAO.updateUserName(IdText.getText(),newNameText.getText(), newUserNameText.getText(),newPassWordText.getText(), newRoleCombo.getValue().getId());
-            resultArea.setText("Email has been updated for, User id: " + IdText.getText() + "\n");
-        } catch (SQLException e) {
-            resultArea.setText("Problem occurred while updating email: " + e);
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try{
+           tx = session.beginTransaction();
+           User user = (User)session.get(User.class, Integer.parseInt(IdText.getText())); 
+           user.setName(newNameText.getText());
+           user.setUserName(newUserNameText.getText());
+           user.setPassWord(newPassWordText.getText());
+           user.setRoleType(newRoleCombo.getValue());
+           session.update(user); 
+           tx.commit();
+           resultArea.setText("User has been updated for, User id: " + IdText.getText() + "\n");
+        }catch (HibernateException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace();
+           resultArea.setText("Problem occurred while updating User: " + e);
+        }finally {
+           session.close(); 
         }
+
     }
 
     //Insert an User to the DB
     @FXML
     private void insertUser (ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        try {
-            UserDAO.insertUser(nameText.getText(),UserNameText.getText(),PassWordText.getText(),RoleCombo.getValue().getId());
-            resultArea.setText("User inserted! \n");
-        } catch (SQLException e) {
-            resultArea.setText("Problem occurred while inserting User " + e);
-            throw e;
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try{
+           tx = session.beginTransaction();
+           User user = new User();
+           user.setName(nameText.getText());
+           user.setUserName(UserNameText.getText());
+           user.setPassWord(PassWordText.getText());
+           user.setRoleType(RoleCombo.getValue());
+           session.save(user);
+           tx.commit();
+           resultArea.setText("User inserted! \n");
+        }catch (HibernateException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace();
+           resultArea.setText("Problem occurred while inserting User " + e);
+        }finally {
+           session.close(); 
         }
     }
 
     //Delete an User with a given User Id from DB
     @FXML
     private void deleteUser (ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        try {
-            UserDAO.deleteUserWithId(IdText.getText());
-            resultArea.setText("User deleted! User id: " + IdText.getText() + "\n");
-        } catch (SQLException e) {
-            resultArea.setText("Problem occurred while deleting User " + e);
-            throw e;
-        }
+		Session session = factory.openSession();
+		Transaction tx = null;
+	    try{
+	        tx = session.beginTransaction();
+	    		User user = 
+	                    (User)session.get(User.class, Integer.parseInt(IdText.getText()));
+	    		session.delete(user);
+	    		tx.commit();
+	    		resultArea.setText("User deleted! User id: " + IdText.getText() + "\n");
+	            
+	    }catch (HibernateException e) {
+	        if (tx!=null) tx.rollback();
+	        resultArea.setText("Problem occurred while deleting User " + e);
+	        e.printStackTrace(); 
+	    }finally {
+	       session.close(); 
+	    }
     }
 }

@@ -14,6 +14,7 @@ public class CashAccount implements java.io.Serializable {
 	private Investor investor;
 	private BigDecimal balance;
 	private Set<CashTransaction> cashTransactions = new HashSet<CashTransaction>(0);
+	private transient String investorName;
 
 	public CashAccount() {
 	}
@@ -21,12 +22,14 @@ public class CashAccount implements java.io.Serializable {
 	public CashAccount(Investor investor, BigDecimal balance) {
 		this.investor = investor;
 		this.balance = balance;
+		investorName = investor.getName();
 	}
 
 	public CashAccount(Investor investor, BigDecimal balance, Set<CashTransaction> cashTransactions) {
 		this.investor = investor;
 		this.balance = balance;
 		this.cashTransactions = cashTransactions;
+		investorName = investor.getName();
 	}
 
 	public Integer getId() {
@@ -43,6 +46,7 @@ public class CashAccount implements java.io.Serializable {
 
 	public void setInvestor(Investor investor) {
 		this.investor = investor;
+		investorName = investor.getName();
 	}
 
 	public BigDecimal getBalance() {
@@ -59,6 +63,11 @@ public class CashAccount implements java.io.Serializable {
 
 	public void setCashTransactions(Set<CashTransaction> cashTransactions) {
 		this.cashTransactions = cashTransactions;
+	}
+
+	@Override
+	public String toString() {
+		return investorName;
 	}
 
 }

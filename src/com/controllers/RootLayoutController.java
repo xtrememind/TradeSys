@@ -5,14 +5,19 @@ import java.io.IOException;
 import com.Main;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class RootLayoutController {
+	@FXML
+	private MenuBar MainMenu;
 
     //Reference to the main application
     private Main main;
@@ -21,6 +26,10 @@ public class RootLayoutController {
     public void setMain (Main main) {
         this.main = main;
     }
+    public void toggleMainMenu(boolean disabled) {
+    	MainMenu.setDisable(disabled);
+    	System.out.println("Main Menu disable = " + disabled);
+    }
 
     //Exit the program
     public void handleExit(ActionEvent actionEvent) {
@@ -28,7 +37,10 @@ public class RootLayoutController {
     }
 
     public void showSecurityView(ActionEvent actionEvent) {
-    		main.showView("Security");
+		main.showView("Security");
+    }
+    public void showUserView(ActionEvent actionEvent) {
+		main.showView("User");
     }
 
     public void showExchangeView(ActionEvent actionEvent) {
@@ -39,6 +51,12 @@ public class RootLayoutController {
 	}
     public void showInvestorView(ActionEvent actionEvent) {
 		main.showView("Investor");
+	}
+    public void showCashTransactionsView(ActionEvent actionEvent) {
+		main.showView("CashTransaction");
+	}
+    public void showPortfolioBalanceView (ActionEvent actionEvent) {
+		main.showView("PortfolioBalance");
 	}
     //Help Menu button behavior
     public void handleHelp(ActionEvent actionEvent) {

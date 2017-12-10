@@ -12,14 +12,17 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import com.controllers.LoginController;
 import com.controllers.RootLayoutController;
+import com.models.Context;
+import com.models.User;
 
 //Main class which extends from Application Class
 public class Main extends Application {
 
     //This is our PrimaryStage (It contains everything)
     private Stage primaryStage;
-
+    public static User currentUser;
     //This is the BorderPane of RootLayout
     private BorderPane rootLayout;
 
@@ -29,12 +32,12 @@ public class Main extends Application {
         this.primaryStage = primaryStage;
 
         //Optional: Set a title for primary stage
-        this.primaryStage.setTitle("SW Test Academy - Sample JavaFX App");
+        this.primaryStage.setTitle("TradeSys");
 
         //2) Initialize RootLayout
         initRootLayout();
-
-        showView("Exchange");
+        
+        showView("Login");
     }
 
     //Initializes the root layout.
@@ -53,8 +56,12 @@ public class Main extends Application {
             RootLayoutController controller = loader.getController();
             controller.setMain(this);
             
+            controller.toggleMainMenu(true);
+            Context.getInstance().setController(controller);
+            
             //Third, show the primary stage
             primaryStage.show(); //Display the primary stage
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
