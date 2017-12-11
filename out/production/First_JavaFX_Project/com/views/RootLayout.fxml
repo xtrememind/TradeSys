@@ -29,10 +29,10 @@
 						<MenuItem mnemonicParsing="false" onAction="#showOrderView" text="Orders" />
 					</items>
 				</Menu>
-            <Menu mnemonicParsing="false" text="Accounting">
+            <Menu mnemonicParsing="false" text="Transactions">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#showCashTransactionsView" text="Cash Transactions" />
-                  <MenuItem mnemonicParsing="false" onAction="#showPortfolioBalanceView" text="Portfolio Transactions" />
+                  <MenuItem mnemonicParsing="false" onAction="#showPortfolioTransactionView" text="Portfolio Transactions" />
                </items>
             </Menu>
 			</menus>

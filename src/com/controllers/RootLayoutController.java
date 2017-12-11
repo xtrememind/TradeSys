@@ -42,6 +42,10 @@ public class RootLayoutController {
     public void showUserView(ActionEvent actionEvent) {
 		main.showView("User");
     }
+    
+    public void showPortfolioTransactionView(ActionEvent actionEvent) {
+		main.showView("PortfolioTransaction");
+    }
 
     public void showExchangeView(ActionEvent actionEvent) {
     		main.showView("Exchange");
