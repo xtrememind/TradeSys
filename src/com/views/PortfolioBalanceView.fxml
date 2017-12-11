@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="344.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controllers.PortfolioBalanceController">
+   <children>
+      <Label layoutX="175.0" layoutY="33.0" text="Investor" />
+      <VBox layoutX="97.0" layoutY="24.0" spacing="4.0" />
+      <VBox layoutX="9.0" layoutY="28.0" prefWidth="67.0" spacing="12.0" />
+      <TableView fx:id="portfolioBalanceTable" editable="true" layoutX="21.0" layoutY="79.0" prefHeight="199.0" prefWidth="559.0" tableMenuButtonVisible="true">
+        <columns>
+            <TableColumn fx:id="IdColumn" prefWidth="48.0" text="Id" />
+          <TableColumn fx:id="securityColumn" prefWidth="148.0" text="Security" />
+            <TableColumn fx:id="balanceColumn" prefWidth="145.0" text="Balance" />
+        </columns>
+      </TableView>
+      <Button fx:id="searchCashTransactionBtn" layoutX="446.0" layoutY="28.0" mnemonicParsing="false" onAction="#searchPortfolioBalance" prefHeight="27.0" prefWidth="85.0" text="Search All" />
+      <ComboBox fx:id="investorCombo" layoutX="243.0" layoutY="28.0" prefHeight="27.0" prefWidth="197.0" />
+      <Label layoutX="343.0" layoutY="297.0" text="Cash Balance:" />
+      <Label fx:id="cashBalanceText" layoutX="449.0" layoutY="297.0" prefHeight="17.0" prefWidth="130.0" />
+   </children>
+</AnchorPane>

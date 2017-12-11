@@ -23,6 +23,9 @@
 					<items>
 						<MenuItem mnemonicParsing="false" onAction="#showInvestorView" text="Investors" />
 					</items>
+					<items>
+						<MenuItem mnemonicParsing="false" onAction="#showPortfolioBalanceView" text="Portfolio Balance" />
+					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="Orders">
 					<items>

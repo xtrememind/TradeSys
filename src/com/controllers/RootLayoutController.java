@@ -36,6 +36,11 @@ public class RootLayoutController {
         System.exit(0);
     }
 
+    
+    public void showPortfolioBalanceView(ActionEvent actionEvent) {
+		main.showView("PortfolioBalance");
+    }
+    
     public void showSecurityView(ActionEvent actionEvent) {
 		main.showView("Security");
     }
@@ -58,9 +63,6 @@ public class RootLayoutController {
 	}
     public void showCashTransactionsView(ActionEvent actionEvent) {
 		main.showView("CashTransaction");
-	}
-    public void showPortfolioBalanceView (ActionEvent actionEvent) {
-		main.showView("PortfolioBalance");
 	}
     //Help Menu button behavior
     public void handleHelp(ActionEvent actionEvent) {

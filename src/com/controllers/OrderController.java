@@ -147,7 +147,7 @@ public class OrderController {
         				buyerPortfolioBalance = portBal;
         			}
         		}
-        		
+        		 
         		PortfolioBalance sellerPortfolioBalance = new PortfolioBalance();
         		for (PortfolioBalance portBal : sellerPortfolio.getPortfolioBalances())
         		{
