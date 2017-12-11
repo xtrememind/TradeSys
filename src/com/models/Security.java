@@ -113,4 +113,17 @@ public class Security implements java.io.Serializable {
 	public String toString() {
 		return name;
 	}
+	public StringProperty NameProperty() {
+		StringProperty SName = new SimpleStringProperty();
+		SName.setValue(name);
+		return SName;
+	}
+	public StringProperty CodeProperty() {
+		StringProperty SCode = new SimpleStringProperty();
+		SCode.setValue(code);
+		return SCode;
+	}
+	public StringProperty ExchangeProperty() {
+		return exchangeName;
+	}
 }

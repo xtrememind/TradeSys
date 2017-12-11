@@ -90,9 +90,9 @@ public class SecurityController {
         });
 
         IdColumn.setCellValueFactory(new PropertyValueFactory("id"));
-        //nameColumn.setCellValueFactory(cellData -> cellData.getValue().NameProperty());
-        //codeColumn.setCellValueFactory(cellData -> cellData.getValue().CodeProperty());
-//        exchangeColumn.setCellValueFactory(cellData -> cellData.getValue().ExchangeProperty());
+        nameColumn.setCellValueFactory(cellData -> cellData.getValue().NameProperty());
+        codeColumn.setCellValueFactory(cellData -> cellData.getValue().CodeProperty());
+        exchangeColumn.setCellValueFactory(cellData -> cellData.getValue().ExchangeProperty());
 
      	Session session = factory.openSession();
         try{
