@@ -14,9 +14,6 @@ public class Investor implements java.io.Serializable {
 	private Set<Portfolio> portfolios = new HashSet<Portfolio>(0);
 	private Set<CashAccount> cashAccounts = new HashSet<CashAccount>(0);
 
-	public String toString() {
-		return name;
-	}
 	public Investor() {
 	}
 
