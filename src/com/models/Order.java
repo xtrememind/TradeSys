@@ -1,5 +1,5 @@
 package com.models;
-// Generated Dec 9, 2017 10:15:37 AM by Hibernate Tools 5.2.6.Final
+// Generated Dec 10, 2017 7:29:30 PM by Hibernate Tools 5.2.6.Final
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -20,17 +20,17 @@ public class Order implements java.io.Serializable {
 	private BigDecimal buyerBrokerFees;
 	private BigDecimal buyerMarketFees;
 	private BigDecimal buyerOrderAmount;
-	private BigDecimal selerBrokerFees;
+	private BigDecimal sellerBrokerFees;
 	private BigDecimal sellerMarketFees;
-	private String sellerOrderAmount;
+	private BigDecimal sellerOrderAmount;
 
 	public Order() {
 	}
 
 	public Order(Portfolio portfolioByBuyerPortfolioId, Portfolio portfolioBySellerPortfolioId, Security security,
 			User user, Date date, int quantity, BigDecimal price, BigDecimal buyerBrokerFees,
-			BigDecimal buyerMarketFees, BigDecimal buyerOrderAmount, BigDecimal selerBrokerFees,
-			BigDecimal sellerMarketFees, String sellerOrderAmount) {
+			BigDecimal buyerMarketFees, BigDecimal buyerOrderAmount, BigDecimal sellerBrokerFees,
+			BigDecimal sellerMarketFees, BigDecimal sellerOrderAmount) {
 		this.portfolioByBuyerPortfolioId = portfolioByBuyerPortfolioId;
 		this.portfolioBySellerPortfolioId = portfolioBySellerPortfolioId;
 		this.security = security;
@@ -41,7 +41,7 @@ public class Order implements java.io.Serializable {
 		this.buyerBrokerFees = buyerBrokerFees;
 		this.buyerMarketFees = buyerMarketFees;
 		this.buyerOrderAmount = buyerOrderAmount;
-		this.selerBrokerFees = selerBrokerFees;
+		this.sellerBrokerFees = sellerBrokerFees;
 		this.sellerMarketFees = sellerMarketFees;
 		this.sellerOrderAmount = sellerOrderAmount;
 	}
@@ -134,12 +134,12 @@ public class Order implements java.io.Serializable {
 		this.buyerOrderAmount = buyerOrderAmount;
 	}
 
-	public BigDecimal getSelerBrokerFees() {
-		return this.selerBrokerFees;
+	public BigDecimal getSellerBrokerFees() {
+		return this.sellerBrokerFees;
 	}
 
-	public void setSelerBrokerFees(BigDecimal selerBrokerFees) {
-		this.selerBrokerFees = selerBrokerFees;
+	public void setSellerBrokerFees(BigDecimal sellerBrokerFees) {
+		this.sellerBrokerFees = sellerBrokerFees;
 	}
 
 	public BigDecimal getSellerMarketFees() {
@@ -150,11 +150,11 @@ public class Order implements java.io.Serializable {
 		this.sellerMarketFees = sellerMarketFees;
 	}
 
-	public String getSellerOrderAmount() {
+	public BigDecimal getSellerOrderAmount() {
 		return this.sellerOrderAmount;
 	}
 
-	public void setSellerOrderAmount(String sellerOrderAmount) {
+	public void setSellerOrderAmount(BigDecimal sellerOrderAmount) {
 		this.sellerOrderAmount = sellerOrderAmount;
 	}
 

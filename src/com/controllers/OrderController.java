@@ -14,10 +14,18 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import oracle.sql.DATE;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -25,10 +33,14 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import com.models.CashAccount;
+import com.models.CashTransaction;
 import com.models.Exchange;
 import com.models.Investor;
 import com.models.Order;
 import com.models.Portfolio;
+import com.models.PortfolioBalance;
+import com.models.PortfolioTransaction;
 import com.models.Security;
 import com.models.User;
 
@@ -45,18 +57,6 @@ public class OrderController {
     private TextField quantityText;
     @FXML
     private TextField priceText;
-    @FXML
-	private Label buyerBrokerFees;
-    @FXML
-	private Label buyerMarketFees;
-    @FXML
-	private Label buyerOrderAmount;
-    @FXML
-	private Label selerBrokerFees;
-    @FXML
-	private Label sellerMarketFees;
-    @FXML
-	private Label sellerOrderAmount;
     @FXML
     private ComboBox<Security> SecuritiesCombo;
     @FXML
@@ -114,26 +114,138 @@ public class OrderController {
         try{
         		Security security = 
         				(Security)session.get(Security.class, SecuritiesCombo.getValue().getId());
-        		Portfolio buyerPortfolio =
-        				(Portfolio)session.get(Portfolio.class, BuyerPortfolioCombo.getValue().getId());
-        		Portfolio sellerPortfolio = 
-        				(Portfolio)session.get(Portfolio.class, SellerPortfolioCombo.getValue().getId());
+        		Investor buyer = (Investor) session.get(Investor.class, BuyerPortfolioCombo.getValue().getId());
+        		Investor seller = (Investor) session.get(Investor.class, SellerPortfolioCombo.getValue().getId());
+        		Portfolio buyerPortfolio = buyer.getPortfolios().toArray(new Portfolio[1])[0];
+        		CashAccount buyerCashAccount = buyer.getCashAccounts().toArray(new CashAccount[1])[0];
+        		Portfolio sellerPortfolio = seller.getPortfolios().toArray(new Portfolio[1])[0];
+        		CashAccount sellerCashAccount = seller.getCashAccounts().toArray(new CashAccount[1])[0];
+        	
+
         		User user = 
         				(User)session.get(User.class, Integer.parseInt(userText.getText()));
-        		Order order = new Order();
-        		order.setQuantity(Integer.parseInt(quantityText.getText()));
-        		order.setPrice(BigDecimal.valueOf(Integer.parseInt(quantityText.getText())));
-        		order.setPortfolioByBuyerPortfolioId(buyerPortfolio);
-        		order.setPortfolioBySellerPortfolioId(sellerPortfolio);
-        		order.setSecurity(security);
-        		order.setDate(new Date());
-        		order.setUser(user);
-        		tx = session.beginTransaction();
-        		session.save(order);
-        		tx.commit();
+        		int quantity = Integer.parseInt(quantityText.getText());
+        		BigDecimal price = BigDecimal.valueOf(Integer.parseInt(priceText.getText()));        		
+        		BigDecimal buyerBrokerFees = price.multiply(new BigDecimal(quantity)
+        				.multiply(new BigDecimal(0.01)).multiply(new BigDecimal(buyerPortfolio.getBrokerFees())));
+        		BigDecimal sellerBrokerFees = price.multiply(new BigDecimal(quantity)
+        				.multiply(new BigDecimal(0.01)).multiply(new BigDecimal(sellerPortfolio.getBrokerFees())));
+        		BigDecimal buyerMarketFees = price.multiply(new BigDecimal(quantity)
+        				.multiply(new BigDecimal(0.01)).multiply(new BigDecimal(buyerPortfolio.getMarketFees()))); 
+        		BigDecimal sellerMarketFees = price.multiply(new BigDecimal(quantity)
+        				.multiply(new BigDecimal(0.01)).multiply(new BigDecimal(sellerPortfolio.getMarketFees())));
+        		BigDecimal buyerOrderAmount = price.multiply(new BigDecimal(quantity))
+        				.add(buyerBrokerFees).add(buyerMarketFees);  
+        		BigDecimal sellerOrderAmount =  price.multiply(new BigDecimal(quantity))
+        				.subtract(sellerBrokerFees).subtract(sellerMarketFees);
+
+        		PortfolioBalance buyerPortfolioBalance = new PortfolioBalance();
+        		for (PortfolioBalance portBal : buyerPortfolio.getPortfolioBalances())
+        		{
+        			if (portBal.getSecurity().getId() == security.getId())
+        			{
+        				buyerPortfolioBalance = portBal;
+        			}
+        		}
+        		
+        		PortfolioBalance sellerPortfolioBalance = new PortfolioBalance();
+        		for (PortfolioBalance portBal : sellerPortfolio.getPortfolioBalances())
+        		{
+        			if (portBal.getSecurity().getId() == security.getId())
+        			{
+        				sellerPortfolioBalance = portBal;
+        			}
+        		}
+        		
+        		if (buyerCashAccount.getBalance().compareTo(buyerOrderAmount) == 1
+        				& sellerPortfolioBalance.getBalance() >= quantity)
+        		{
+        			sellerPortfolioBalance.setBalance( sellerPortfolioBalance.getBalance()- quantity);
+        			if (buyerPortfolioBalance.getId() == null)
+        			{
+        				buyerPortfolioBalance.setBalance(quantity);
+        				buyerPortfolioBalance.setSecurity(security);
+        				buyerPortfolioBalance.setPortfolio(buyerPortfolio);
+        			}
+        			else
+        			{
+        				buyerPortfolioBalance.setBalance(quantity + buyerPortfolioBalance.getBalance());
+        			}
+        			
+	        		Order order = new Order();
+	        		order.setQuantity(quantity);
+	        		order.setPrice(price);
+	        		order.setPortfolioByBuyerPortfolioId(buyerPortfolio);
+	        		order.setPortfolioBySellerPortfolioId(sellerPortfolio);
+	        		order.setSecurity(security);
+	        		order.setDate(new Date());
+	        		order.setUser(user);
+	        		order.setBuyerBrokerFees(buyerBrokerFees);
+	        		order.setBuyerMarketFees(buyerMarketFees);
+	        		order.setSellerBrokerFees(sellerBrokerFees);
+	        		order.setSellerMarketFees(sellerMarketFees);
+	        		order.setBuyerOrderAmount(buyerOrderAmount);
+	        		order.setSellerOrderAmount(sellerOrderAmount);
+	        		tx = session.beginTransaction();
+	        		
+	        		CashTransaction buyerCashTransaction = new CashTransaction();
+	        		buyerCashTransaction.setAmount(buyerOrderAmount.multiply(new BigDecimal(-1)));
+	        		buyerCashTransaction.setDate(new Date());
+	        		buyerCashTransaction.setDescription("Buy " + security.getCode());
+	        		buyerCashTransaction.setCashAccount(buyerCashAccount);
+	        		buyerCashTransaction.setBalance(buyerCashAccount.getBalance().subtract(buyerOrderAmount));
+	        		buyerCashAccount.setBalance(buyerCashAccount.getBalance().subtract(buyerOrderAmount));
+	        		
+	        		PortfolioTransaction buyerPortfolioTransaction = new PortfolioTransaction();
+	        		buyerPortfolioTransaction.setDate(new Date());
+	        		buyerPortfolioTransaction.setSecurity(security);
+	        		buyerPortfolioTransaction.setQuantity(quantity);
+	        		buyerPortfolioTransaction.setPortfolio(buyerPortfolio);
+	        		buyerPortfolioTransaction.setType("buy shares");
+	        		buyerPortfolioTransaction.setTotalQuantity(buyerPortfolioBalance.getBalance());
+	        			        		
+	        		CashTransaction sellerCashTransaction = new CashTransaction();
+	        		sellerCashTransaction.setAmount(sellerOrderAmount);
+	        		sellerCashTransaction.setDate(new Date());
+	        		sellerCashTransaction.setDescription("Sell " + security.getCode());
+	        		sellerCashTransaction.setCashAccount(sellerCashAccount);
+	        		sellerCashTransaction.setBalance(sellerCashAccount.getBalance().add(sellerOrderAmount));
+	        		sellerCashAccount.setBalance(sellerCashAccount.getBalance().add(sellerOrderAmount));
+
+	        		PortfolioTransaction sellerPortfolioTransaction = new PortfolioTransaction();
+	        		sellerPortfolioTransaction.setDate(new Date());
+	        		sellerPortfolioTransaction.setSecurity(security);
+	        		sellerPortfolioTransaction.setQuantity(quantity);
+	        		sellerPortfolioTransaction.setPortfolio(sellerPortfolio);
+	        		sellerPortfolioTransaction.setType("sell shares");
+	        		sellerPortfolioTransaction.setTotalQuantity(sellerPortfolioBalance.getBalance());
+	        		
+	        		session.save(order);
+	        		session.save(buyerCashAccount);
+	        		session.save(buyerCashTransaction);
+	        		session.save(buyerPortfolioBalance);
+	        		session.save(buyerPortfolioTransaction);
+	        		session.save(sellerCashAccount);
+	        		session.save(sellerCashTransaction);
+	        		session.save(sellerPortfolioBalance);
+	        		session.save(sellerPortfolioTransaction);
+	        		
+	        		tx.commit();
+                resultArea.setText("Order successfully created\n" +
+                		"buyer total fees = " +  buyerBrokerFees.add(buyerMarketFees).doubleValue() + "\n" + 
+                		"buyer order amount = "+ buyerOrderAmount.doubleValue() + "\n" + 
+                		"seller total fees = " + sellerBrokerFees.add(sellerMarketFees).doubleValue() + "\n" + 
+                		"seller order amount = "+ sellerOrderAmount.doubleValue() + "\n" 
+                		);
+        		}
+        		else
+        		{
+        			resultArea.setText("Buyer doesn't have suffecient balance\n");
+        		}
         }catch (HibernateException e) {
            if (tx!=null) tx.rollback();
            e.printStackTrace();
+           resultArea.setText("Problem occurred while placing Order: " + e);
         }finally {
            session.close(); 
         }

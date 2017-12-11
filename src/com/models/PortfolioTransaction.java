@@ -1,7 +1,6 @@
 package com.models;
-// Generated Dec 9, 2017 10:15:37 AM by Hibernate Tools 5.2.6.Final
+// Generated Dec 10, 2017 7:29:30 PM by Hibernate Tools 5.2.6.Final
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -14,14 +13,14 @@ public class PortfolioTransaction implements java.io.Serializable {
 	private Security security;
 	private Date date;
 	private String type;
-	private String quantity;
-	private BigDecimal totalQuantity;
+	private int quantity;
+	private int totalQuantity;
 
 	public PortfolioTransaction() {
 	}
 
-	public PortfolioTransaction(Portfolio portfolio, Security security, Date date, String type, String quantity,
-			BigDecimal totalQuantity) {
+	public PortfolioTransaction(Portfolio portfolio, Security security, Date date, String type, int quantity,
+			int totalQuantity) {
 		this.portfolio = portfolio;
 		this.security = security;
 		this.date = date;
@@ -70,19 +69,19 @@ public class PortfolioTransaction implements java.io.Serializable {
 		this.type = type;
 	}
 
-	public String getQuantity() {
+	public int getQuantity() {
 		return this.quantity;
 	}
 
-	public void setQuantity(String quantity) {
+	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 
-	public BigDecimal getTotalQuantity() {
+	public int getTotalQuantity() {
 		return this.totalQuantity;
 	}
 
-	public void setTotalQuantity(BigDecimal totalQuantity) {
+	public void setTotalQuantity(int totalQuantity) {
 		this.totalQuantity = totalQuantity;
 	}
 

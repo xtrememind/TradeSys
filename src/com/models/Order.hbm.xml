@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generated Dec 9, 2017 10:15:37 AM by Hibernate Tools 5.2.6.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 10, 2017 7:29:30 PM by Hibernate Tools 5.2.6.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
     <class catalog="sql9208938" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.models.Order" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="Order">
         <id name="id" type="java.lang.Integer">
@@ -36,14 +36,14 @@
         <property generated="never" lazy="false" name="buyerOrderAmount" optimistic-lock="true" type="big_decimal" unique="false">
             <column name="BuyerOrderAmount" not-null="true" precision="8"/>
         </property>
-        <property generated="never" lazy="false" name="selerBrokerFees" optimistic-lock="true" type="big_decimal" unique="false">
-            <column name="SelerBrokerFees" not-null="true" precision="8"/>
+        <property generated="never" lazy="false" name="sellerBrokerFees" optimistic-lock="true" type="big_decimal" unique="false">
+            <column name="SellerBrokerFees" not-null="true" precision="8"/>
         </property>
         <property generated="never" lazy="false" name="sellerMarketFees" optimistic-lock="true" type="big_decimal" unique="false">
             <column name="SellerMarketFees" not-null="true" precision="8"/>
         </property>
-        <property generated="never" lazy="false" name="sellerOrderAmount" optimistic-lock="true" type="string" unique="false">
-            <column length="45" name="SellerOrderAmount" not-null="true"/>
+        <property generated="never" lazy="false" name="sellerOrderAmount" optimistic-lock="true" type="big_decimal" unique="false">
+            <column name="SellerOrderAmount" not-null="true" precision="8"/>
         </property>
     </class>
 </hibernate-mapping>

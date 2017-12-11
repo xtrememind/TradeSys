@@ -1,5 +1,5 @@
 package com.models;
-// Generated Dec 9, 2017 10:15:37 AM by Hibernate Tools 5.2.6.Final
+// Generated Dec 10, 2017 7:29:30 PM by Hibernate Tools 5.2.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -54,6 +54,7 @@ public class Investor implements java.io.Serializable {
 	public void setCashAccounts(Set<CashAccount> cashAccounts) {
 		this.cashAccounts = cashAccounts;
 	}
+	
 	@Override
 	public String toString() {
 		return name;

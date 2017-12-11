@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generated Dec 9, 2017 10:15:37 AM by Hibernate Tools 5.2.6.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 10, 2017 7:29:30 PM by Hibernate Tools 5.2.6.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
     <class catalog="sql9208938" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.models.PortfolioTransaction" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="PortfolioTransaction">
         <id name="id" type="java.lang.Integer">
@@ -18,11 +18,11 @@
         <property generated="never" lazy="false" name="type" optimistic-lock="true" type="string" unique="false">
             <column length="45" name="Type" not-null="true"/>
         </property>
-        <property generated="never" lazy="false" name="quantity" optimistic-lock="true" type="string" unique="false">
-            <column length="45" name="Quantity" not-null="true"/>
+        <property generated="never" lazy="false" name="quantity" optimistic-lock="true" type="int" unique="false">
+            <column name="Quantity" not-null="true"/>
         </property>
-        <property generated="never" lazy="false" name="totalQuantity" optimistic-lock="true" type="big_decimal" unique="false">
-            <column name="TotalQuantity" not-null="true" precision="10"/>
+        <property generated="never" lazy="false" name="totalQuantity" optimistic-lock="true" type="int" unique="false">
+            <column name="TotalQuantity" not-null="true"/>
         </property>
     </class>
 </hibernate-mapping>
