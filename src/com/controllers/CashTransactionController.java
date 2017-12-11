@@ -234,13 +234,13 @@ public class CashTransactionController {
         	   resultArea.setText("Investor doesn't have sufficient balance to cover transaction");
            }
            else {
-	   		   balance.add(amount);
+	   		   balance = balance.add(amount);
 	   		   cashTransaction.setAmount(amount); 
 	   		   cashTransaction.setBalance(balance);
 	   		   cashAccount.setBalance(balance);
 	           cashTransaction.setCashAccount(cashAccount);
 	           session.save(cashTransaction);
-	           session.update(cashAccount);
+	           session.save(cashAccount);
 	           tx.commit();
 	           resultArea.setText("CashTransaction inserted! \n");
            }
