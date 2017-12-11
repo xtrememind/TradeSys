@@ -38,6 +38,11 @@
                   <MenuItem mnemonicParsing="false" onAction="#showPortfolioTransactionView" text="Portfolio Transactions" />
                </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="User">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#Logout" text="Logout" />
+               </items>
+            </Menu>
 			</menus>
 		</MenuBar>
 	</top>

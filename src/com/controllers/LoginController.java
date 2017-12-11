@@ -110,7 +110,7 @@ public class LoginController {
         			Context.getInstance().setUser(user);
 
                     RootLayoutController controller = Context.getInstance().getController();
-                    controller.toggleMainMenu(false);
+                    controller.toggleMainMenu(true);
                     controller.showOrderView();
 
         		}

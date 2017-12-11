@@ -3,6 +3,7 @@ package com.controllers;
 import java.io.IOException;
 
 import com.Main;
+import com.models.Context;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,7 +28,7 @@ public class RootLayoutController {
         this.main = main;
     }
     public void toggleMainMenu(boolean disabled) {
-    	MainMenu.setDisable(disabled);
+    	MainMenu.setVisible(disabled);
     	System.out.println("Main Menu disable = " + disabled);
     }
 
@@ -63,6 +64,11 @@ public class RootLayoutController {
 	}
     public void showInvestorView(ActionEvent actionEvent) {
 		main.showView("Investor");
+	}
+    public void Logout(ActionEvent actionEvent) {
+    		Context.getInstance().setUser(null);
+    		MainMenu.setVisible(false);
+		main.showView("Login");
 	}
     public void showCashTransactionsView(ActionEvent actionEvent) {
 		main.showView("CashTransaction");

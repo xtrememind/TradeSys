@@ -56,7 +56,7 @@ public class Main extends Application {
             RootLayoutController controller = loader.getController();
             controller.setMain(this);
             
-            controller.toggleMainMenu(true);
+            controller.toggleMainMenu(false);
             Context.getInstance().setController(controller);
             
             //Third, show the primary stage
