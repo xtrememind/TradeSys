@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="344.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controllers.OrderController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="344.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controllers.OrderController">
    <children>
-      <Button fx:id="addOrderBtn" layoutX="487.0" layoutY="300.0" mnemonicParsing="false" onAction="#insertOrder" text="Create Order" />
-      <TextArea fx:id="resultArea" layoutX="19.0" layoutY="268.0" prefHeight="61.0" prefWidth="460.0" wrapText="true" />
-      <Label layoutX="19.0" layoutY="246.0" text="Result Console">
+      <Button fx:id="addOrderBtn" layoutX="492.0" layoutY="172.0" mnemonicParsing="false" onAction="#insertOrder" text="Create Order" />
+      <TextArea fx:id="resultArea" layoutX="19.0" layoutY="224.0" prefHeight="105.0" prefWidth="572.0" wrapText="true" />
+      <Label layoutX="19.0" layoutY="207.0" text="Result Console">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>
@@ -26,8 +26,6 @@
       <TextField fx:id="quantityText" layoutX="147.0" layoutY="137.0" prefHeight="27.0" prefWidth="98.0" promptText="Quantity" />
       <Label layoutX="40.0" layoutY="177.0" prefHeight="17.0" prefWidth="98.0" text="Price" />
       <TextField fx:id="priceText" layoutX="145.0" layoutY="172.0" prefHeight="27.0" prefWidth="98.0" promptText="Price" />
-      <Label layoutX="39.0" layoutY="212.0" prefHeight="17.0" prefWidth="98.0" text="User" />
-      <TextField fx:id="userText" layoutX="145.0" layoutY="207.0" prefHeight="27.0" prefWidth="98.0" promptText="User" />
       <ComboBox fx:id="SecuritiesCombo" layoutX="147.0" layoutY="25.0" prefHeight="27.0" prefWidth="178.0" />
       <ComboBox fx:id="BuyerPortfolioCombo" layoutX="147.0" layoutY="62.0" prefHeight="27.0" prefWidth="178.0" />
       <ComboBox fx:id="SellerPortfolioCombo" layoutX="147.0" layoutY="100.0" prefHeight="27.0" prefWidth="178.0" />

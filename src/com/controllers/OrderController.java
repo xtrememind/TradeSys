@@ -1,31 +1,9 @@
 package com.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import oracle.sql.DATE;
-
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -35,7 +13,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.models.CashAccount;
 import com.models.CashTransaction;
-import com.models.Exchange;
+import com.models.Context;
 import com.models.Investor;
 import com.models.Order;
 import com.models.Portfolio;
@@ -44,13 +22,19 @@ import com.models.PortfolioTransaction;
 import com.models.Security;
 import com.models.User;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+
 public class OrderController {
 
     private static SessionFactory factory;
     @FXML
     private TextArea resultArea;
-    @FXML
-    private TextField userText;
     @FXML
     private TextField dateText;
     @FXML
@@ -122,8 +106,7 @@ public class OrderController {
         		CashAccount sellerCashAccount = seller.getCashAccounts().toArray(new CashAccount[1])[0];
         	
 
-        		User user = 
-        				(User)session.get(User.class, Integer.parseInt(userText.getText()));
+        		User user = Context.getInstance().currentUser();
         		int quantity = Integer.parseInt(quantityText.getText());
         		BigDecimal price = BigDecimal.valueOf(Integer.parseInt(priceText.getText()));        		
         		BigDecimal buyerBrokerFees = price.multiply(new BigDecimal(quantity)

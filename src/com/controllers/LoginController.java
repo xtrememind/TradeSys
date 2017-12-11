@@ -111,6 +111,7 @@ public class LoginController {
 
                     RootLayoutController controller = Context.getInstance().getController();
                     controller.toggleMainMenu(false);
+                    controller.showOrderView();
 
         		}
         }catch (HibernateException e) {

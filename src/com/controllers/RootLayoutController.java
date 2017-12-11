@@ -58,6 +58,9 @@ public class RootLayoutController {
     public void showOrderView(ActionEvent actionEvent) {
 		main.showView("Order");
 	}
+    public void showOrderView() {
+		main.showView("Order");
+	}
     public void showInvestorView(ActionEvent actionEvent) {
 		main.showView("Investor");
 	}
